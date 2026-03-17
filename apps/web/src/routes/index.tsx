@@ -8,11 +8,11 @@ import { HomeCategoriesGridSection } from "@/components/home/home-categories-gri
 import { HomeNewArrivalsHorizontalScrollSection } from "@/components/home/home-new-arrivals-horizontal-scroll-section";
 import { HomeFeaturedListingsSection } from "@/components/home/home-featured-listings-section";
 import { HomeCameraAndElectronicsListingsSection } from "@/components/home/home-camera-and-electronics-listings-section";
+import { HomeSportsAndMusicListingsSection } from "@/components/home/home-sports-and-music-listings-section";
+import { HomeKitchenAndAppliancesListingsSection } from "@/components/home/home-kitchen-and-appliances-listings-section";
 import { HomeEventsAndOutdoorListingsSection } from "@/components/home/home-events-and-outdoor-listings-section";
+import { HomeBudgetUnder150kListingsSection } from "@/components/home/home-budget-under-150k-per-day-listings-section";
 import { HomeStatsCounterSection } from "@/components/home/home-stats-counter-section";
-import { HomeTopVerifiedHostsShowcaseSection } from "@/components/home/home-top-verified-hosts-showcase-section";
-import { HomeUserTestimonialsSection } from "@/components/home/home-user-testimonials-section";
-import { HomeTrustSafetyPillarsSection } from "@/components/home/home-trust-safety-pillars-section";
 import { HomeOwnerCtaSection } from "@/components/home/home-owner-cta-section";
 
 export const Route = createFileRoute("/")({
@@ -30,11 +30,11 @@ function HomePage() {
       <HomeNewArrivalsHorizontalScrollSection />
       <HomeFeaturedListingsSection />
       <HomeCameraAndElectronicsListingsSection />
+      <HomeSportsAndMusicListingsSection />
+      <HomeKitchenAndAppliancesListingsSection />
       <HomeEventsAndOutdoorListingsSection />
+      <HomeBudgetUnder150kListingsSection />
       <HomeStatsCounterSection />
-      <HomeTopVerifiedHostsShowcaseSection />
-      <HomeUserTestimonialsSection />
-      <HomeTrustSafetyPillarsSection />
       <HomeOwnerCtaSection />
       <SiteFooterWithNavLinks />
     </div>
