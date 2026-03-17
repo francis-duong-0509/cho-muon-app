@@ -59,7 +59,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 
 function RootDocument() {
   return (
-    <html lang="vi" className="dark">
+    <html lang="vi">
       <head>
         <HeadContent />
       </head>
