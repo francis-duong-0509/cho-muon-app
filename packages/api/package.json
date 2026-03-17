@@ -1,0 +1,30 @@
+{
+  "name": "@chomuon/api",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@chomuon/auth": "workspace:*",
+    "@chomuon/db": "workspace:*",
+    "@chomuon/env": "workspace:*",
+    "@orpc/client": "catalog:",
+    "@orpc/openapi": "catalog:",
+    "@orpc/server": "catalog:",
+    "@orpc/zod": "catalog:",
+    "dotenv": "catalog:",
+    "drizzle-orm": "^0.45.1",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@chomuon/config": "workspace:*",
+    "elysia": "catalog:",
+    "typescript": "^5"
+  }
+}

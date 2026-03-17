@@ -1,0 +1,3 @@
+{
+  "extends": "@chomuon/config/tsconfig.base.json"
+}

@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:17.2-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: chomuon
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      retries: 5
+    restart: unless-stopped
+
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/chomuon
+      BETTER_AUTH_SECRET: local-dev-secret-at-least-32-chars-long
+      BETTER_AUTH_URL: http://localhost:3001
+      CORS_ORIGIN: http://localhost:3001
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        VITE_SERVER_URL: ""
+    ports:
+      - "3001:3001"
+    environment:
+      SERVER_INTERNAL_URL: http://server:3000
+      NODE_ENV: production
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

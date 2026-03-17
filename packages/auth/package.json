@@ -1,0 +1,24 @@
+{
+  "name": "@chomuon/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@chomuon/db": "workspace:*",
+    "@chomuon/env": "workspace:*",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@chomuon/config": "workspace:*",
+    "typescript": "^5"
+  }
+}

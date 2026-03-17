@@ -1,0 +1,28 @@
+# Dependencies (reinstalled inside container)
+node_modules/
+apps/*/node_modules/
+packages/*/node_modules/
+
+# Build outputs (container builds its own)
+apps/*/dist/
+apps/*/.output/
+packages/*/dist/
+
+# Git
+.git/
+.gitignore
+
+# Local env files (NEVER include secrets in image)
+.env
+.env.*
+!.env.example
+
+# Dev/docs files
+docs/
+plans/
+*.md
+!README.md
+
+# Editor
+.vscode/
+.idea/
