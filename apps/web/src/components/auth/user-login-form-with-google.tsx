@@ -2,20 +2,32 @@ import { useState } from "react";
 import { Button } from "@chomuon/ui/components/button";
 import { Input } from "@chomuon/ui/components/input";
 import { Label } from "@chomuon/ui/components/label";
+import { useNavigate } from "@tanstack/react-router";
+import { authClient } from "@/lib/auth-client";
+import { getAuthErrorMessage } from "@/lib/auth-error";
 
 export function UserLoginFormWithGoogle() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    // Mock submit
-    setTimeout(() => {
-      console.log("Login:", { email, password });
+    setError(null);
+
+    const {error: signInError} = await authClient.signIn.email({email, password});
+
+    if (signInError) {
+      setError(getAuthErrorMessage(signInError.code));
       setLoading(false);
-    }, 1000);
+      return;
+    }
+
+    navigate({ to: "/" });
+    setLoading(false)
   }
 
   return (
@@ -26,7 +38,6 @@ export function UserLoginFormWithGoogle() {
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {/* Email */}
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="login-email">Email</Label>
           <Input
@@ -40,7 +51,6 @@ export function UserLoginFormWithGoogle() {
           />
         </div>
 
-        {/* Password */}
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
             <Label htmlFor="login-password">Mật khẩu</Label>
@@ -58,7 +68,9 @@ export function UserLoginFormWithGoogle() {
             autoComplete="current-password"
           />
         </div>
-
+        {error && (
+          <p className="text-sm text-red-500">{error}</p>
+        )}
         <Button
           type="submit"
           disabled={loading}
@@ -68,27 +80,23 @@ export function UserLoginFormWithGoogle() {
         </Button>
       </form>
 
-      {/* Divider */}
       <div className="flex items-center gap-3">
         <div className="flex-1 h-px bg-border" />
         <span className="text-xs text-muted-foreground">hoặc</span>
         <div className="flex-1 h-px bg-border" />
       </div>
 
-      {/* Google login */}
       <button
         type="button"
         onClick={() => console.log("Google login")}
         className="flex items-center justify-center gap-3 w-full border border-border rounded-lg px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
       >
-        {/* Google icon placeholder */}
         <span className="flex items-center justify-center w-5 h-5 rounded-full border border-border text-xs font-bold text-primary">
           G
         </span>
         Tiếp tục với Google
       </button>
 
-      {/* Register link */}
       <p className="text-center text-sm text-muted-foreground">
         Chưa có tài khoản?{" "}
         <a href="/register" className="text-primary hover:underline font-medium">

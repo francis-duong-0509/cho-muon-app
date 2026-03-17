@@ -5,6 +5,8 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin } from "better-auth/plugins";
 
+const isDev = process.env.NODE_ENV === "development";
+
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -18,7 +20,7 @@ export const auth = betterAuth({
     additionalFields: {
       phone: {
         type: "string",
-        required: false,
+        required: true,
         input: true,
       },
     },
@@ -27,8 +29,8 @@ export const auth = betterAuth({
   baseURL: env.BETTER_AUTH_URL,
   advanced: {
     defaultCookieAttributes: {
-      sameSite: "none",
-      secure: true,
+      sameSite: isDev ? "lax" : "none",
+      secure: !isDev,
       httpOnly: true,
     },
   },

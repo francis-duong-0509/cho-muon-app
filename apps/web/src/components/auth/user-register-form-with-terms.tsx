@@ -3,6 +3,9 @@ import { Button } from "@chomuon/ui/components/button";
 import { Input } from "@chomuon/ui/components/input";
 import { Label } from "@chomuon/ui/components/label";
 import { Checkbox } from "@chomuon/ui/components/checkbox";
+import { authClient } from "@/lib/auth-client";
+import { useNavigate } from "@tanstack/react-router";
+import { getAuthErrorMessage } from "@/lib/auth-error";
 
 export function UserRegisterFormWithTerms() {
   const [fullName, setFullName] = useState("");
@@ -12,16 +15,47 @@ export function UserRegisterFormWithTerms() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!agreedToTerms) return;
     setLoading(true);
-    // Mock submit
-    setTimeout(() => {
-      console.log("Register:", { fullName, email, phone, password, confirmPassword });
+    setError(null);
+
+    if (!agreedToTerms) {
+      setError(getAuthErrorMessage("AGREE_TO_TERMS"));
       setLoading(false);
-    }, 1000);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError(getAuthErrorMessage("PASSWORD_MISMATCH"));
+      setLoading(false);
+      return;
+    }
+
+    if (!phone.match(/^[0-9]{10}$/)) {
+      setError(getAuthErrorMessage("INVALID_PHONE"));
+      setLoading(false);
+      return;
+    }
+
+    const {error: signUpError} = await authClient.signUp.email({
+      email,
+      password,
+      name: fullName,
+      phone,
+    });
+
+    if (signUpError) {
+      setError(getAuthErrorMessage(signUpError.code));
+      setLoading(false);
+      return;
+    }
+
+    navigate({ to: "/" });
+    setLoading(false)
   }
 
   return (
@@ -32,7 +66,6 @@ export function UserRegisterFormWithTerms() {
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {/* Họ và tên */}
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="register-fullname">Họ và tên</Label>
           <Input
@@ -46,7 +79,6 @@ export function UserRegisterFormWithTerms() {
           />
         </div>
 
-        {/* Email */}
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="register-email">Email</Label>
           <Input
@@ -60,7 +92,6 @@ export function UserRegisterFormWithTerms() {
           />
         </div>
 
-        {/* Số điện thoại */}
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="register-phone">Số điện thoại</Label>
           <Input
@@ -74,7 +105,6 @@ export function UserRegisterFormWithTerms() {
           />
         </div>
 
-        {/* Mật khẩu */}
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="register-password">Mật khẩu</Label>
           <Input
@@ -88,7 +118,6 @@ export function UserRegisterFormWithTerms() {
           />
         </div>
 
-        {/* Xác nhận mật khẩu */}
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="register-confirm-password">Xác nhận mật khẩu</Label>
           <Input
@@ -102,7 +131,10 @@ export function UserRegisterFormWithTerms() {
           />
         </div>
 
-        {/* Terms checkbox */}
+      {error && (
+          <p className="text-sm text-red-500">{error}</p>
+        )}
+
         <div className="flex items-start gap-2 pt-1">
           <Checkbox
             id="register-terms"
@@ -120,7 +152,7 @@ export function UserRegisterFormWithTerms() {
               Chính sách bảo mật
             </a>
           </Label>
-        </div>
+        </div>        
 
         <Button
           type="submit"
@@ -131,7 +163,6 @@ export function UserRegisterFormWithTerms() {
         </Button>
       </form>
 
-      {/* Login link */}
       <p className="text-center text-sm text-muted-foreground">
         Đã có tài khoản?{" "}
         <a href="/login" className="text-primary hover:underline font-medium">
