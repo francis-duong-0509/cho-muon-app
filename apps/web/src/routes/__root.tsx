@@ -47,9 +47,10 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap",
       },
     ],
   }),
@@ -62,11 +63,13 @@ function RootDocument() {
       <head>
         <HeadContent />
       </head>
-      <body className="font-[Inter] antialiased">
+      <body className="font-['Be_Vietnam_Pro'] antialiased">
         <Outlet />
         <Toaster richColors />
-        <TanStackRouterDevtools position="bottom-left" />
-        <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
+        <React.Suspense>
+          <TanStackRouterDevtools position="bottom-left" />
+          <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
+        </React.Suspense>
         <Scripts />
       </body>
     </html>
