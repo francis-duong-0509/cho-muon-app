@@ -45,14 +45,32 @@ function ListingDetailPage() {
       <SiteNavbarWithAuthCta />
 
       <div className="max-w-7xl mx-auto px-4 py-6">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-          <a href="/" className="hover:text-foreground transition-colors">Trang chủ</a>
-          <span>/</span>
-          <a href="/browse" className="hover:text-foreground transition-colors">Khám phá</a>
-          <span>/</span>
-          <span className="text-foreground font-medium truncate max-w-[240px]">{listing.title}</span>
-        </nav>
+        {/* Breadcrumb + Share/Save bar */}
+        <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <nav className="flex items-center gap-2 text-sm text-muted-foreground">
+            <a href="/" className="hover:text-foreground transition-colors">Trang chủ</a>
+            <span>/</span>
+            <a href="/browse" className="hover:text-foreground transition-colors">Khám phá</a>
+            <span>/</span>
+            <span className="text-foreground font-medium truncate max-w-[240px]">{listing.title}</span>
+          </nav>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
+            >
+              <span>↗</span>
+              <span>Chia sẻ</span>
+            </button>
+            <button
+              type="button"
+              className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
+            >
+              <span>💾</span>
+              <span>Lưu tin</span>
+            </button>
+          </div>
+        </div>
 
         {/* Main 2-col: gallery + booking */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
@@ -85,20 +103,6 @@ function ListingDetailPage() {
             </div>
           )}
 
-          {/* Rules */}
-          {listing.rules.length > 0 && (
-            <div>
-              <h3 className="font-semibold text-foreground mb-2">Quy định thuê</h3>
-              <ul className="flex flex-col gap-1">
-                {listing.rules.map((rule, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <span className="text-primary mt-0.5">•</span>
-                    <span>{rule}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </section>
 
         {/* Host section */}
@@ -129,6 +133,60 @@ function ListingDetailPage() {
             </div>
           </div>
         </section>
+
+        {/* Thông Tin Cho Thuê */}
+        <section className="mb-10 bg-card border border-border rounded-xl p-6">
+          <h2 className="text-lg font-bold text-foreground mb-4">Thông Tin Cho Thuê</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="flex flex-col gap-1">
+              <p className="text-xs text-muted-foreground">Số ngày tối thiểu</p>
+              <p className="font-semibold text-foreground">{listing.minDays} ngày</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <p className="text-xs text-muted-foreground">Số ngày tối đa</p>
+              <p className="font-semibold text-foreground">{listing.maxDays} ngày</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <p className="text-xs text-muted-foreground">Đặt cọc</p>
+              <p className="font-semibold text-foreground">
+                {listing.deposit.toLocaleString("vi-VN")}đ
+              </p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <p className="text-xs text-muted-foreground">Tình trạng</p>
+              {listing.available ? (
+                <span className="inline-flex items-center gap-1 text-sm font-medium text-green-700 bg-green-50 px-2 py-0.5 rounded-full w-fit">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
+                  Còn trống
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 text-sm font-medium text-red-700 bg-red-50 px-2 py-0.5 rounded-full w-fit">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 inline-block" />
+                  Đã cho thuê
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="mt-4 pt-4 border-t border-border">
+            <p className="text-xs text-muted-foreground mb-1">Hình thức nhận đồ</p>
+            <p className="text-sm text-foreground font-medium">🤝 Gặp mặt trực tiếp</p>
+          </div>
+        </section>
+
+        {/* Quy Định Quan Trọng */}
+        {listing.rules.length > 0 && (
+          <section className="mb-10 bg-amber-50 border-l-4 border-amber-400 rounded-r-xl p-6">
+            <h2 className="text-lg font-bold text-foreground mb-3">Quy Định Quan Trọng</h2>
+            <ul className="flex flex-col gap-2">
+              {listing.rules.map((rule, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-sm text-foreground">
+                  <span className="shrink-0 mt-0.5">⚠️</span>
+                  <span>{rule}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {/* Reviews */}
         {listing.reviews.length > 0 && (

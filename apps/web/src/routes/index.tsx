@@ -7,10 +7,10 @@ import { HomeFlashDealsDailySection } from "@/components/home/home-flash-deals-d
 import { HomeCategoriesGridSection } from "@/components/home/home-categories-grid-section";
 import { HomeNewArrivalsHorizontalScrollSection } from "@/components/home/home-new-arrivals-horizontal-scroll-section";
 import { HomeFeaturedListingsSection } from "@/components/home/home-featured-listings-section";
-import { HomeBrowseByDistrictSection } from "@/components/home/home-browse-by-district-section";
+import { HomeCameraAndElectronicsListingsSection } from "@/components/home/home-camera-and-electronics-listings-section";
+import { HomeEventsAndOutdoorListingsSection } from "@/components/home/home-events-and-outdoor-listings-section";
 import { HomeStatsCounterSection } from "@/components/home/home-stats-counter-section";
 import { HomeTopVerifiedHostsShowcaseSection } from "@/components/home/home-top-verified-hosts-showcase-section";
-import { HomeHowItWorksStepsSection } from "@/components/home/home-how-it-works-steps-section";
 import { HomeUserTestimonialsSection } from "@/components/home/home-user-testimonials-section";
 import { HomeTrustSafetyPillarsSection } from "@/components/home/home-trust-safety-pillars-section";
 import { HomeOwnerCtaSection } from "@/components/home/home-owner-cta-section";
@@ -29,10 +29,10 @@ function HomePage() {
       <HomeCategoriesGridSection />
       <HomeNewArrivalsHorizontalScrollSection />
       <HomeFeaturedListingsSection />
-      <HomeBrowseByDistrictSection />
+      <HomeCameraAndElectronicsListingsSection />
+      <HomeEventsAndOutdoorListingsSection />
       <HomeStatsCounterSection />
       <HomeTopVerifiedHostsShowcaseSection />
-      <HomeHowItWorksStepsSection />
       <HomeUserTestimonialsSection />
       <HomeTrustSafetyPillarsSection />
       <HomeOwnerCtaSection />

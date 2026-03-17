@@ -4,6 +4,7 @@ import { Input } from "@chomuon/ui/components/input";
 import { Label } from "@chomuon/ui/components/label";
 import { Checkbox } from "@chomuon/ui/components/checkbox";
 import { CATEGORIES } from "@/data/marketplace-mock-data";
+import { BrowseSidebarAdvancedSortAndAvailabilityFilters } from "./browse-sidebar-advanced-sort-and-availability-filters";
 
 export interface BrowseFilters {
   category: string;
@@ -11,19 +12,16 @@ export interface BrowseFilters {
   minPrice: number;
   maxPrice: number;
   verifiedOnly: boolean;
+  sortBy: "popular" | "price_asc" | "price_desc" | "rating" | "newest";
+  minRating: number;
+  availability: "all" | "available" | "unavailable";
+  minDays: number;
+  city: string;
 }
 
 const DISTRICTS = [
-  "Tất cả",
-  "Quận 1",
-  "Quận 2",
-  "Quận 3",
-  "Quận 5",
-  "Quận 7",
-  "Quận 10",
-  "Bình Thạnh",
-  "Phú Nhuận",
-  "Tân Bình",
+  "Tất cả", "Quận 1", "Quận 2", "Quận 3", "Quận 5",
+  "Quận 7", "Quận 10", "Bình Thạnh", "Phú Nhuận", "Tân Bình",
 ];
 
 interface BrowseSidebarSearchFiltersProps {
@@ -36,10 +34,15 @@ export function BrowseSidebarSearchFilters({ onFilter }: BrowseSidebarSearchFilt
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
   const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [sortBy, setSortBy] = useState<BrowseFilters["sortBy"]>("popular");
+  const [minRating, setMinRating] = useState(0);
+  const [availability, setAvailability] = useState<BrowseFilters["availability"]>("all");
+  const [minDays, setMinDays] = useState(0);
+  const [city, setCity] = useState("Tất cả");
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    onFilter({ category, district, minPrice, maxPrice, verifiedOnly });
+    onFilter({ category, district, minPrice, maxPrice, verifiedOnly, sortBy, minRating, availability, minDays, city });
   }
 
   return (
@@ -89,9 +92,7 @@ export function BrowseSidebarSearchFilters({ onFilter }: BrowseSidebarSearchFilt
           className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
         >
           {DISTRICTS.map((d) => (
-            <option key={d} value={d}>
-              {d}
-            </option>
+            <option key={d} value={d}>{d}</option>
           ))}
         </select>
       </div>
@@ -131,6 +132,20 @@ export function BrowseSidebarSearchFilters({ onFilter }: BrowseSidebarSearchFilt
           Chỉ hiện đồ đã xác minh
         </Label>
       </div>
+
+      {/* Advanced: city, sort, rating, availability, minDays */}
+      <BrowseSidebarAdvancedSortAndAvailabilityFilters
+        city={city}
+        sortBy={sortBy}
+        minRating={minRating}
+        availability={availability}
+        minDays={minDays}
+        onCityChange={setCity}
+        onSortByChange={setSortBy}
+        onMinRatingChange={setMinRating}
+        onAvailabilityChange={setAvailability}
+        onMinDaysChange={setMinDays}
+      />
 
       <Button type="submit" className="w-full bg-primary text-primary-foreground">
         Áp dụng bộ lọc

@@ -12,14 +12,41 @@ export const Route = createFileRoute("/browse")({
 });
 
 function applyFilters(filters: BrowseFilters) {
-  return LISTINGS.filter((listing) => {
+  let results = LISTINGS.filter((listing) => {
     if (filters.category && filters.category !== "all" && listing.category !== filters.category) return false;
     if (filters.district && filters.district !== "Tất cả" && listing.district !== filters.district) return false;
     if (filters.minPrice > 0 && listing.pricePerDay < filters.minPrice) return false;
     if (filters.maxPrice > 0 && listing.pricePerDay > filters.maxPrice) return false;
     if (filters.verifiedOnly && !listing.verified) return false;
+    if (filters.city && filters.city !== "Tất cả" && listing.city !== filters.city) return false;
+    if (filters.minRating > 0 && listing.rating < filters.minRating) return false;
+    if (filters.availability === "available" && !listing.available) return false;
+    if (filters.availability === "unavailable" && listing.available) return false;
+    if (filters.minDays > 0 && listing.minDays > filters.minDays) return false;
     return true;
   });
+
+  // Sort
+  switch (filters.sortBy) {
+    case "price_asc":
+      results = [...results].sort((a, b) => a.pricePerDay - b.pricePerDay);
+      break;
+    case "price_desc":
+      results = [...results].sort((a, b) => b.pricePerDay - a.pricePerDay);
+      break;
+    case "rating":
+      results = [...results].sort((a, b) => b.rating - a.rating);
+      break;
+    case "newest":
+      results = [...results].sort((a, b) => Number(b.id) - Number(a.id));
+      break;
+    case "popular":
+    default:
+      results = [...results].sort((a, b) => b.reviewCount - a.reviewCount);
+      break;
+  }
+
+  return results;
 }
 
 function BrowsePage() {
@@ -29,6 +56,11 @@ function BrowsePage() {
     minPrice: 0,
     maxPrice: 0,
     verifiedOnly: false,
+    sortBy: "popular",
+    minRating: 0,
+    availability: "all",
+    minDays: 0,
+    city: "Tất cả",
   });
 
   const filteredListings = applyFilters(filters);

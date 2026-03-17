@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 
 interface ListingImageGalleryWithLightboxProps {
@@ -15,74 +13,91 @@ export function ListingImageGalleryWithLightbox({
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
 
   const activeImage = images[activeIndex] ?? ""
-  const thumbnails = images.slice(0, 3)
 
   return (
     <>
-      {/* Gallery layout */}
-      <div className="flex flex-col gap-2 md:flex-row">
-        {/* Main image */}
-        <div
-          className="relative md:w-2/3 aspect-[4/3] bg-muted rounded-xl overflow-hidden cursor-zoom-in"
-          onClick={() => activeImage && setIsLightboxOpen(true)}
-        >
-          {activeImage ? (
-            <img
-              src={activeImage}
-              alt={title}
-              className="w-full h-full object-cover transition-opacity duration-200"
-            />
-          ) : (
-            <div className="w-full h-full bg-muted" />
-          )}
-        </div>
+      {/* Main image */}
+      <div
+        className="relative w-full aspect-[4/3] bg-gray-100 rounded-xl overflow-hidden cursor-zoom-in"
+        onClick={() => activeImage && setIsLightboxOpen(true)}
+      >
+        {activeImage ? (
+          <img
+            src={activeImage}
+            alt={title}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">Không có ảnh</div>
+        )}
+        {/* Zoom hint */}
+        <span className="absolute bottom-3 right-3 bg-black/50 text-white text-xs px-2 py-1 rounded-full pointer-events-none">
+          🔍 Nhấn để xem lớn
+        </span>
+        {/* Image counter */}
+        {images.length > 1 && (
+          <span className="absolute top-3 right-3 bg-black/50 text-white text-xs px-2 py-1 rounded-full pointer-events-none">
+            {activeIndex + 1} / {images.length}
+          </span>
+        )}
+      </div>
 
-        {/* Thumbnails — vertical on desktop, horizontal scroll on mobile */}
-        <div className="flex flex-row gap-2 overflow-x-auto md:flex-col md:w-1/3 md:overflow-x-visible">
-          {thumbnails.map((src, idx) => (
+      {/* Thumbnails row — show all images */}
+      {images.length > 1 && (
+        <div className="flex gap-2 mt-2 overflow-x-auto pb-1">
+          {images.map((src, idx) => (
             <button
               key={idx}
               onClick={() => setActiveIndex(idx)}
               className={[
-                "relative shrink-0 w-24 h-20 md:w-full md:h-full md:aspect-[4/3] rounded-lg overflow-hidden bg-muted border-2 transition-all",
+                "relative shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all",
                 idx === activeIndex
-                  ? "border-primary"
-                  : "border-transparent opacity-70 hover:opacity-100",
+                  ? "border-primary ring-1 ring-primary"
+                  : "border-gray-200 opacity-60 hover:opacity-100 hover:border-primary/50",
               ].join(" ")}
             >
-              {src ? (
-                <img
-                  src={src}
-                  alt={`${title} ${idx + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full bg-muted" />
-              )}
+              <img
+                src={src}
+                alt={`${title} ${idx + 1}`}
+                className="w-full h-full object-cover"
+              />
             </button>
           ))}
         </div>
-      </div>
+      )}
 
-      {/* Lightbox overlay */}
+      {/* Lightbox */}
       {isLightboxOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
           onClick={() => setIsLightboxOpen(false)}
         >
+          {/* Prev/Next navigation */}
+          {images.length > 1 && (
+            <>
+              <button
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white w-10 h-10 rounded-full flex items-center justify-center text-xl transition-colors"
+                onClick={(e) => { e.stopPropagation(); setActiveIndex((activeIndex - 1 + images.length) % images.length) }}
+                aria-label="Ảnh trước"
+              >‹</button>
+              <button
+                className="absolute right-14 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white w-10 h-10 rounded-full flex items-center justify-center text-xl transition-colors"
+                onClick={(e) => { e.stopPropagation(); setActiveIndex((activeIndex + 1) % images.length) }}
+                aria-label="Ảnh sau"
+              >›</button>
+            </>
+          )}
           <img
             src={activeImage}
             alt={title}
-            className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
+            className="max-w-[88vw] max-h-[88vh] object-contain rounded-lg shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           />
           <button
-            className="absolute top-4 right-4 text-white text-2xl leading-none hover:text-primary transition-colors"
+            className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors"
             onClick={() => setIsLightboxOpen(false)}
             aria-label="Đóng"
-          >
-            ✕
-          </button>
+          >✕</button>
         </div>
       )}
     </>
