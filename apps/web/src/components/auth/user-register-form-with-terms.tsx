@@ -16,6 +16,7 @@ export function UserRegisterFormWithTerms() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -41,7 +42,7 @@ export function UserRegisterFormWithTerms() {
       return;
     }
 
-    const {error: signUpError} = await authClient.signUp.email({
+    const {data, error: signUpError} = await authClient.signUp.email({
       email,
       password,
       name: fullName,
@@ -54,8 +55,30 @@ export function UserRegisterFormWithTerms() {
       return;
     }
 
-    navigate({ to: "/" });
+    setSuccess(true);
     setLoading(false)
+  }
+
+  if (success) {
+    return (
+      <div className="flex flex-col gap-4 text-center">
+        <div className="text-4xl">📧</div>
+        <h2 className="text-xl font-bold">Kiểm tra email của bạn!</h2>
+        <p className="text-sm text-muted-foreground">
+          Nếu <strong>{email}</strong> chưa được sử dụng,
+          bạn sẽ nhận được email xác minh trong vài phút.
+        </p>
+        <p className="text-xs text-muted-foreground">
+          Không thấy email? Kiểm tra thư mục Spam hoặc Promotions.
+        </p>
+        <Button
+          onClick={() => navigate({ to: "/login" })}
+          className="w-full bg-primary text-primary-foreground mt-1"
+        >
+          Quay lại đăng nhập
+        </Button>
+      </div>
+    );
   }
 
   return (

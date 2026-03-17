@@ -4,6 +4,7 @@ import { env } from "@chomuon/env/server";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin } from "better-auth/plugins";
+import { resetPasswordTemplate, sendEmail, verifyEmailTemplate } from "./email";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -15,6 +16,25 @@ export const auth = betterAuth({
   trustedOrigins: [env.CORS_ORIGIN],
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }) => {
+      await sendEmail({
+        to: user.email,
+        subject: "Đặt lại mật khẩu ChoMuon",
+        html: resetPasswordTemplate(url),
+      });
+    },
+  },
+  emailVerification: {
+    sendVerificationEmail: async ({ user, url }) => {
+      await sendEmail({
+        to: user.email,
+        subject: "Xác minh email ChoMuon",
+        html: verifyEmailTemplate(url),
+      });
+    },
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
   },
   user: {
     additionalFields: {

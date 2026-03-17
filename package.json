@@ -45,11 +45,13 @@
   "dependencies": {
     "@chomuon/env": "workspace:*",
     "dotenv": "catalog:",
+    "nodemailer": "^8.0.2",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@chomuon/config": "workspace:*",
     "@types/bun": "catalog:",
+    "@types/nodemailer": "^7.0.11",
     "turbo": "^2.8.12",
     "typescript": "^5"
   },

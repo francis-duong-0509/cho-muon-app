@@ -8,6 +8,7 @@ const AUTH_ERROR_MESSAGES: Record<string, string> = {
     AGREE_TO_TERMS: "Vui lòng đồng ý với điều khoản",
     INVALID_PHONE: "Số điện thoại không hợp lệ",
     PHONE_ALREADY_EXISTS: "Số điện thoại đã tồn tại",
+    FAILED_TO_CREATE_USER: "Số điện thoại hoặc email đã được sử dụng",
 
     // Add more as needed
 };
