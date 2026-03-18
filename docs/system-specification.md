@@ -87,7 +87,8 @@ disputes
 |-------|-----------|---------------|
 | `users` | status, role, trust_score, trust_level | UNVERIFIED → VERIFIED → WARNED → SUSPENDED → BANNED |
 | `user_kyc` | kyc_status, cccd_number_hash | PENDING → APPROVED / REJECTED / RESUBMIT |
-| `listings` | status, category, price_per_day, deposit_amount | PENDING_REVIEW → ACTIVE → PAUSED / SUSPENDED / DELETED |
+| `categories` | id (slug PK), name, is_active, sort_order | Admin-managed lookup table (no enum) |
+| `listings` | status, category_id (FK), price_per_day, deposit_amount | PENDING_REVIEW → ACTIVE → PAUSED / SUSPENDED / DELETED |
 | `bookings` | status, start_date, end_date, price snapshots | PENDING → CONFIRMED → ACTIVE → COMPLETED / CANCELLED / OVERDUE |
 | `conversations` | booking_id (1:1), is_locked | Created on CONFIRMED, locked on COMPLETED/CANCELLED |
 | `reviews` | rating, is_visible (blind), reviewer_role | Visible after both submit or 72h |
@@ -146,13 +147,14 @@ Handled by better-auth, not oRPC.
 
 | Procedure | Type | Input | Output |
 |-----------|------|-------|--------|
-| `listings.list` | public | `{ category?, district?, province?, priceMin?, priceMax?, startDate?, endDate?, sortBy?, page, limit }` | `{ items: Listing[], total, page }` |
+| `listings.list` | public | `{ categoryId?, district?, province?, priceMin?, priceMax?, startDate?, endDate?, sortBy?, page, limit }` | `{ items: Listing[], total, page }` |
 | `listings.getById` | public | `{ id: uuid }` | `Listing & { owner: UserPublic, images: string[], blockedDates: date[], reviews: Review[] }` |
 | `listings.create` | protected | `ListingCreateInput` | `Listing` |
 | `listings.update` | protected | `{ id } & Partial<ListingCreateInput>` | `Listing` |
 | `listings.pause` | protected | `{ id }` | `Listing` |
 | `listings.activate` | protected | `{ id }` | `Listing` |
 | `listings.delete` | protected | `{ id }` | `void` |
+| `listings.categories` | public | `{}` | `Category[]` | // List active categories for filter UI |
 | `listings.myListings` | protected | `{ status?, page, limit }` | `{ items: Listing[], total }` |
 | `listings.blockDates` | protected | `{ id, dates: date[] }` | `void` |
 | `listings.unblockDates` | protected | `{ id, dates: date[] }` | `void` |

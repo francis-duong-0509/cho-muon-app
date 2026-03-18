@@ -50,5 +50,6 @@ coverage
 tmp
 temp
 .agent
-bootcamp
 .claude
+bootcamp
+docs
