@@ -1,5 +1,7 @@
 export * from "./auth";
 export * from "./users";
+export * from "./user-kyc";
+export * from "./user-otp";
 export * from "./categories";
 export * from "./listings";
 export * from "./bookings";
