@@ -49,4 +49,6 @@ coverage
 .cache
 tmp
 temp
-.agent/*
+.agent
+bootcamp
+.claude
