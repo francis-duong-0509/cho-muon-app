@@ -13,6 +13,8 @@
 - [x] Frontend: TanStack Router + shadcn/ui + Tailwind v4
 - [x] Pages: Homepage (mock data), Browse (mock data), Login/Register, Forgot/Reset password
 - [x] oRPC server setup with publicProcedure / protectedProcedure / adminProcedure
+- [x] Docker Compose: MinIO (S3-compatible object storage) — API `localhost:19000`, Console `localhost:19001`
+- [x] S3 environment variables declared in `packages/env/src/server.ts`
 
 **In Progress / Stub:**
 - [ ] Listing detail page (route exists, no real data)

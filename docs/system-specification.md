@@ -21,7 +21,7 @@
 | Realtime | WebSocket / Supabase Realtime | Chat, booking status updates |
 | Email | Nodemailer (Mailtrap dev / SMTP prod) | Verification, notifications |
 | Push Notif | Firebase Cloud Messaging (FCM) | Mobile push |
-| Storage | S3-compatible (private + public buckets) | Images, KYC docs |
+| Storage | S3-compatible (MinIO local / AWS S3 prod) | Images, KYC docs — MinIO on `localhost:19000` in dev |
 
 ### 1.2 Monorepo Structure
 
@@ -329,10 +329,16 @@ Handled by better-auth, not oRPC.
 | `MAILTRAP_PORT` | ✓ | SMTP port |
 | `MAILTRAP_USER` | ✓ | SMTP username |
 | `MAILTRAP_PASS` | ✓ | SMTP password |
-| `STORAGE_BUCKET_PUBLIC` | Phase 1 | Public image bucket name |
-| `STORAGE_BUCKET_PRIVATE` | Phase 1 | Private KYC bucket name |
-| `FCM_SERVER_KEY` | Phase 1 | Firebase Cloud Messaging key |
-| `KYC_PROVIDER_API_KEY` | Phase 1 | FPT.AI or VNPay eKYC API key |
+| `S3_ENDPOINT` | Phase 1 | S3 endpoint (`http://localhost:19000` for MinIO dev) |
+| `S3_ACCESS_KEY_ID` | Phase 1 | S3 / MinIO access key |
+| `S3_SECRET_ACCESS_KEY` | Phase 1 | S3 / MinIO secret key |
+| `S3_BUCKET_NAME` | Phase 1 | Default bucket name |
+| `S3_REGION` | Phase 1 | S3 region (default: `us-east-1`) |
+| `FCM_SERVER_KEY` | Phase 2 | Firebase Cloud Messaging key |
+| `KYC_PROVIDER_API_KEY` | Phase 2 | FPT.AI or VNPay eKYC API key |
+
+> **Local Dev:** MinIO chạy tại `localhost:19000` (S3 API) và `localhost:19001` (Web Console) qua Docker Compose.
+> Credentials mặc định: `minioadmin / minioadmin`.
 
 ### Web (`packages/env/src/web.ts`)
 
