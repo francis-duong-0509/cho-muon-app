@@ -20,8 +20,6 @@ export const userStatusEnum = pgEnum("user_status", [
   "BANNED",
 ]);
 
-export const userRoleEnum = pgEnum("user_role", ["USER", "ADMIN", "SUPPORT"]);
-
 export const trustLevelEnum = pgEnum("trust_level", [
   "NEW",
   "TRUSTED",
@@ -47,7 +45,6 @@ export const userProfile = pgTable(
 
     // Account status
     status: userStatusEnum("status").default("UNVERIFIED").notNull(),
-    role: userRoleEnum("role").default("USER").notNull(),
     suspendedUntil: timestamp("suspended_until", { withTimezone: true }),
 
     // Trust system

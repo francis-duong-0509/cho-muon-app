@@ -11,6 +11,8 @@
   },
   "scripts": {},
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1011.0",
+    "@aws-sdk/s3-request-presigner": "^3.1011.0",
     "@chomuon/auth": "workspace:*",
     "@chomuon/db": "workspace:*",
     "@chomuon/env": "workspace:*",

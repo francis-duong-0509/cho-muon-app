@@ -49,7 +49,7 @@ coverage
 .cache
 tmp
 temp
-.agent
 .claude
 bootcamp
 docs
+.agent

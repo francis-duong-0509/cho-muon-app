@@ -14,10 +14,14 @@ import { Route as PolicyRouteImport } from './routes/policy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ListingIdRouteImport } from './routes/listing.$id'
+import { Route as AdminKycRouteImport } from './routes/admin/kyc'
+import { Route as DashboardProfileKycRouteImport } from './routes/dashboard/profile/kyc'
+import { Route as AdminKycUserIdRouteImport } from './routes/admin/kyc.$userId'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -44,6 +48,11 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BrowseRoute = BrowseRouteImport.update({
   id: '/browse',
   path: '/browse',
@@ -64,40 +73,67 @@ const ListingIdRoute = ListingIdRouteImport.update({
   path: '/listing/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminKycRoute = AdminKycRouteImport.update({
+  id: '/kyc',
+  path: '/kyc',
+  getParentRoute: () => AdminRoute,
+} as any)
+const DashboardProfileKycRoute = DashboardProfileKycRouteImport.update({
+  id: '/profile/kyc',
+  path: '/profile/kyc',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const AdminKycUserIdRoute = AdminKycUserIdRouteImport.update({
+  id: '/$userId',
+  path: '/$userId',
+  getParentRoute: () => AdminKycRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/browse': typeof BrowseRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/how-it-works': typeof HowItWorksRoute
   '/login': typeof LoginRoute
   '/policy': typeof PolicyRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/kyc': typeof AdminKycRouteWithChildren
   '/listing/$id': typeof ListingIdRoute
+  '/admin/kyc/$userId': typeof AdminKycUserIdRoute
+  '/dashboard/profile/kyc': typeof DashboardProfileKycRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/browse': typeof BrowseRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/how-it-works': typeof HowItWorksRoute
   '/login': typeof LoginRoute
   '/policy': typeof PolicyRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/kyc': typeof AdminKycRouteWithChildren
   '/listing/$id': typeof ListingIdRoute
+  '/admin/kyc/$userId': typeof AdminKycUserIdRoute
+  '/dashboard/profile/kyc': typeof DashboardProfileKycRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/browse': typeof BrowseRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/how-it-works': typeof HowItWorksRoute
   '/login': typeof LoginRoute
   '/policy': typeof PolicyRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/kyc': typeof AdminKycRouteWithChildren
   '/listing/$id': typeof ListingIdRoute
+  '/admin/kyc/$userId': typeof AdminKycUserIdRoute
+  '/dashboard/profile/kyc': typeof DashboardProfileKycRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -105,40 +141,53 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/browse'
+    | '/dashboard'
     | '/forgot-password'
     | '/how-it-works'
     | '/login'
     | '/policy'
     | '/reset-password'
+    | '/admin/kyc'
     | '/listing/$id'
+    | '/admin/kyc/$userId'
+    | '/dashboard/profile/kyc'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
     | '/browse'
+    | '/dashboard'
     | '/forgot-password'
     | '/how-it-works'
     | '/login'
     | '/policy'
     | '/reset-password'
+    | '/admin/kyc'
     | '/listing/$id'
+    | '/admin/kyc/$userId'
+    | '/dashboard/profile/kyc'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/browse'
+    | '/dashboard'
     | '/forgot-password'
     | '/how-it-works'
     | '/login'
     | '/policy'
     | '/reset-password'
+    | '/admin/kyc'
     | '/listing/$id'
+    | '/admin/kyc/$userId'
+    | '/dashboard/profile/kyc'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   BrowseRoute: typeof BrowseRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   HowItWorksRoute: typeof HowItWorksRoute
   LoginRoute: typeof LoginRoute
@@ -184,6 +233,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/browse': {
       id: '/browse'
       path: '/browse'
@@ -212,13 +268,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListingIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/kyc': {
+      id: '/admin/kyc'
+      path: '/kyc'
+      fullPath: '/admin/kyc'
+      preLoaderRoute: typeof AdminKycRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/dashboard/profile/kyc': {
+      id: '/dashboard/profile/kyc'
+      path: '/profile/kyc'
+      fullPath: '/dashboard/profile/kyc'
+      preLoaderRoute: typeof DashboardProfileKycRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/admin/kyc/$userId': {
+      id: '/admin/kyc/$userId'
+      path: '/$userId'
+      fullPath: '/admin/kyc/$userId'
+      preLoaderRoute: typeof AdminKycUserIdRouteImport
+      parentRoute: typeof AdminKycRoute
+    }
   }
 }
 
+interface AdminKycRouteChildren {
+  AdminKycUserIdRoute: typeof AdminKycUserIdRoute
+}
+
+const AdminKycRouteChildren: AdminKycRouteChildren = {
+  AdminKycUserIdRoute: AdminKycUserIdRoute,
+}
+
+const AdminKycRouteWithChildren = AdminKycRoute._addFileChildren(
+  AdminKycRouteChildren,
+)
+
+interface AdminRouteChildren {
+  AdminKycRoute: typeof AdminKycRouteWithChildren
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminKycRoute: AdminKycRouteWithChildren,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface DashboardRouteChildren {
+  DashboardProfileKycRoute: typeof DashboardProfileKycRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardProfileKycRoute: DashboardProfileKycRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   BrowseRoute: BrowseRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   HowItWorksRoute: HowItWorksRoute,
   LoginRoute: LoginRoute,

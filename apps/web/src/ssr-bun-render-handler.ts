@@ -21,11 +21,10 @@ export default {
   async fetch(request: Request) {
     const url = new URL(request.url);
 
-    // Proxy API, RPC & API docs requests to internal server
+    // Proxy API & RPC requests to internal server
     if (
       url.pathname.startsWith("/api/") ||
-      url.pathname.startsWith("/rpc") ||
-      url.pathname.startsWith("/api-docs")
+      url.pathname.startsWith("/rpc")
     ) {
       try {
         const target = new URL(url.pathname + url.search, API_TARGET);

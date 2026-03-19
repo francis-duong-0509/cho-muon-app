@@ -93,44 +93,49 @@
 
 ---
 
-### Phase 1A — Core Data Layer
-**Duration:** 1 week | **Target:** 2026-03-28
+### Phase 1A — Core Data Layer ✅ (Complete)
+**Duration:** 1 week | **Completed:** 2026-03-19
 
 **Goal:** Real database schema for all marketplace entities.
 
-| Task | Table(s) | Effort |
+| Task | Table(s) | Status |
 |------|---------|--------|
-| Drizzle schema: users extended (trust_score, etc.) | `users` update | S |
-| Drizzle schema: user_kyc, user_otp | `user_kyc`, `user_otp` | S |
-| Drizzle schema: listings + images + blocked_dates | `listings`, `listing_images`, `listing_blocked_dates` | S |
-| Drizzle schema: bookings | `bookings` | S |
-| Drizzle schema: conversations + messages + read_receipts | `conversations`, `messages`, `conversation_read_receipts` | S |
-| Drizzle schema: reviews | `reviews` | S |
-| Drizzle schema: disputes + dispute_evidences | `disputes`, `dispute_evidences` | S |
-| Drizzle schema: notifications | `notifications` | S |
-| Drizzle schema: listing_reports + audit_logs | `listing_reports`, `audit_logs` | S |
-| All DB indexes + constraints + enums | All | S |
-| Drizzle migrations + seed script | — | S |
+| Drizzle schema: users extended (trust_score, etc.) | `user_profile` | ✅ |
+| Drizzle schema: user_kyc, user_otp | `user_kyc`, `user_otp` | ✅ |
+| Drizzle schema: listings + images + blocked_dates | `listings`, `listing_images`, `listing_blocked_dates` | ✅ |
+| Drizzle schema: bookings | `bookings` | ✅ |
+| Drizzle schema: conversations + messages + read_receipts | `conversations`, `messages`, `conversation_read_receipts` | ✅ |
+| Drizzle schema: reviews | `reviews` | ✅ |
+| Drizzle schema: disputes + dispute_evidences | `disputes`, `dispute_evidences` | ✅ |
+| Drizzle schema: notifications | `notifications` | ✅ |
+| Drizzle schema: listing_reports + audit_logs | `listing_reports`, `audit_logs` | ✅ |
+| Drizzle schema: categories | `categories` | ✅ |
+| All DB indexes + constraints + enums | All | ✅ |
+| Drizzle migrations applied | — | ✅ |
+| Seed script (categories) | — | ✅ |
 
-**Success Criteria:** `bun db:migrate` runs clean, all tables exist, seed creates test data.
+**Success Criteria:** ✅ `bun db:migrate` runs clean, all tables exist, categories seeded.
 
 ---
 
-### Phase 1B — KYC & User Profile
+### Phase 1B — KYC & User Profile 🔄 (In Progress)
 **Duration:** 1 week | **Target:** 2026-04-04
 
 **Goal:** Users can verify identity and manage profile.
 
-| Task | Route | Effort |
+| Task | Route | Status |
 |------|-------|--------|
-| File upload service (S3 integration, signed URLs) | — | M |
-| oRPC: `kyc.submit`, `kyc.getStatus` | — | S |
-| KYC upload UI: CCCD front/back + selfie | `/dashboard/profile/kyc` | M |
-| KYC status tracking page (pending/approved/rejected) | `/dashboard/profile/kyc` | S |
-| Admin KYC queue | `/admin/kyc` | S |
-| Admin KYC review + approve/reject | `/admin/kyc/:userId` | S |
-| Email notification: KYC approved/rejected | — | S |
-| "Verified" badge on user profiles | User cards | S |
+| File upload service (S3 integration, signed URLs) | — | ✅ |
+| oRPC: `kyc.getUploadUrls` | — | ✅ |
+| oRPC: `kyc.submit`, `kyc.getStatus` | — | ✅ |
+| oRPC: `kyc.adminList`, `kyc.adminApprove`, `kyc.adminReject` | — | ✅ |
+| `databaseHooks`: auto-create `user_profile` on register | — | ✅ |
+| KYC upload UI: CCCD front/back + selfie | `/dashboard/profile/kyc` | ✅ |
+| KYC status tracking page (pending/approved/rejected) | `/dashboard/profile/kyc` | ✅ |
+| Admin KYC queue UI | `/admin/kyc` | ✅ |
+| Admin KYC review UI + approve/reject | `/admin/kyc/:userId` | ✅ |
+| Email notification: KYC approved/rejected | — | ⬜ |
+| "Verified" badge on user profiles | User cards | ⬜ |
 
 **Success Criteria:** User can upload CCCD, admin can approve, user status changes to VERIFIED.
 

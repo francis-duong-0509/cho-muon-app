@@ -27,34 +27,75 @@
 
 ```
 cho-muon-app/
-├── apps/
-│   ├── server/          # Elysia API — port 3000
-│   └── web/             # TanStack Router SSR — port 5173
-├── packages/
-│   ├── api/             # oRPC routers (@chomuon/api)
-│   ├── auth/            # better-auth config (@chomuon/auth)
-│   ├── db/              # Drizzle schema + migrations (@chomuon/db)
-│   ├── env/             # Zod-validated env vars (@chomuon/env)
-│   ├── ui/              # shadcn/ui components (@chomuon/ui)
-│   └── config/          # Shared TypeScript config
-├── docs/
-└── plans/
+├── apps/                    ← Processes — chạy độc lập
+│   ├── server/              # Elysia HTTP server, port 3000. "Cánh cửa" — nhận request, route đến đúng handler
+│   └── web/                 # React app (TanStack Router), port 5173. Giao diện người dùng
+│
+└── packages/                ← Libraries — không chạy độc lập, được import bởi apps/
+    ├── api/                 # Business logic (oRPC procedures, handlers). Không biết HTTP là gì
+    ├── db/                  # Database layer (Drizzle schemas + queries). Không biết HTTP hay business rules
+    ├── auth/                # better-auth config — shared giữa server và web
+    ├── env/                 # Zod-validated env vars — single source of truth cho config
+    ├── ui/                  # shadcn/ui components — dùng bởi apps/web
+    └── config/              # Shared TypeScript/ESLint config
 ```
+
+**Rule:**
+- Thêm feature/endpoint mới → `packages/api/src/routers/`
+- Thêm database table mới → `packages/db/src/schema/`
+- Thêm page/UI mới → `apps/web/src/`
+- `apps/server/` — hiếm khi sửa (chỉ khi thêm middleware toàn hệ thống)
+
+**Tại sao tách `packages/api` khỏi `apps/server`?**
+`packages/api` (business logic) không phụ thuộc vào HTTP framework → có thể test không cần start server, có thể đổi framework mà không đổi logic.
 
 ### 1.3 Request Flow
 
+**Case 1: API call (ví dụ: submit KYC)**
+
 ```
-Browser → TanStack Router (SSR)
-       → oRPC Client (/rpc) → Elysia Server → oRPC Router
-                                             → Drizzle ORM → PostgreSQL
-       → Auth Client (/api/auth/*) → better-auth handler
+apps/web
+  │  client.kyc.submit({ fullName: "..." })
+  │  oRPC Client → HTTP POST /rpc/kyc/submit
+  ▼
+apps/server (Elysia, port 3000)
+  │  Nhận HTTP request
+  │  Route /rpc/* → oRPC handler
+  ▼
+packages/api (oRPC Router)
+  │  Tìm: appRouter.kyc.submit
+  │  Middleware: kiểm tra session (protectedProcedure)
+  │  Validate input (Zod)
+  │  Chạy handler function
+  ▼
+packages/db (Drizzle ORM)
+  │  db.insert(userKyc).values({...}) → SQL
+  ▼
+PostgreSQL → lưu data
+  │
+  ◀─── Response ngược lại qua từng layer
 ```
+
+**Case 2: Auth (login/logout)**
+
+```
+apps/web
+  │  authClient.signIn({ email, password })
+  │  HTTP POST /api/auth/sign-in
+  ▼
+apps/server
+  │  Route /api/auth/* → better-auth handler (bypass packages/api hoàn toàn)
+  ▼
+better-auth → tạo session → set httpOnly cookie → response
+```
+
+> Auth không đi qua `packages/api`. API chỉ *đọc* session từ cookie qua `context.ts` — không tạo session.
 
 ---
 
 ## 2. Data Models
 
-> Full schema details in `DATA_MODEL_ThueDo.md`. Summary below.
+> Full schema details in `data-model.md`. Summary below.
 
 ### 2.1 Entity Relationship
 

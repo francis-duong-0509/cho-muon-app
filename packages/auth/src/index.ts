@@ -5,6 +5,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin } from "better-auth/plugins";
 import { resetPasswordTemplate, sendEmail, verifyEmailTemplate } from "./email";
+import { userProfile } from "@chomuon/db/schema/users";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -59,4 +60,18 @@ export const auth = betterAuth({
       defaultRole: "user",
     }),
   ],
+
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          await db.insert(userProfile).values({
+            userId: user.id,
+            phone: user.phone,
+            displayName: user.name,
+          });
+        }
+      }
+    },
+  },
 });
