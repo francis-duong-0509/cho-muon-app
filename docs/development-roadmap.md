@@ -141,24 +141,25 @@
 
 ---
 
-### Phase 1C — Listings
+### Phase 1C — Listings 🔄 (API Complete, UI Remaining)
 **Duration:** 1.5 weeks | **Target:** 2026-04-14
 
 **Goal:** Owners can create/manage listings; renters can search and view.
 
-| Task | Route | Effort |
+| Task | Route | Status |
 |------|-------|--------|
-| oRPC: `listings.create`, `.update`, `.pause`, `.delete`, `.myListings` | — | M |
-| oRPC: `listings.list` (full-text + filters + pagination) | — | M |
-| oRPC: `listings.getById` (with images, blocked dates, reviews) | — | S |
-| oRPC: `listings.blockDates`, `.unblockDates`, `.checkAvailability` | — | S |
-| Multi-step listing creation form | `/dashboard/listings/new` | L |
-| Image upload (2-8 photos, drag-reorder) | Inline | M |
-| Edit listing form + availability calendar | `/dashboard/listings/:id/edit` | M |
-| My Listings management page | `/dashboard/listings` | S |
-| Browse page: connect real API (replace mock data) | `/browse` | S |
-| Listing detail page: gallery, info, owner card, calendar, reviews | `/listing/:id` | L |
-| Admin listing moderation queue | `/admin/listings` | S |
+| oRPC: `listings.create`, `.update`, `.pause`, `.activate`, `.delete`, `.myListings` | — | ✅ |
+| oRPC: `listings.list` (full-text + filters + pagination) | — | ✅ |
+| oRPC: `listings.getById` (with images, blocked dates, reviews) | — | ✅ |
+| oRPC: `listings.categories` (active categories for filter UI) | — | ✅ |
+| oRPC: `listings.blockDates`, `.unblockDates`, `.checkAvailability` | — | ✅ |
+| Multi-step listing creation form | `/dashboard/listings/new` | ⬜ |
+| Image upload (2-8 photos, drag-reorder) | Inline | ⬜ |
+| Edit listing form + availability calendar | `/dashboard/listings/:id/edit` | ⬜ |
+| My Listings management page | `/dashboard/listings` | ⬜ |
+| Browse page: connect real API (replace mock data) | `/browse` | ⬜ |
+| Listing detail page: gallery, info, owner card, calendar, reviews | `/listing/:id` | ⬜ |
+| Admin listing moderation queue | `/admin/listings` | ⬜ |
 
 **Success Criteria:** Owner can create listing, it shows in browse, detail page loads correctly.
 

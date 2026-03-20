@@ -10,6 +10,20 @@ import {
   reject, 
   getDetail 
 } from "./kyc";
+import { 
+  create as createListing, 
+  getById as getListingById, 
+  list as listListings,
+  listCategories,
+  update as updateListing,
+  pause as pauseListing,
+  activate as activateListing,
+  deleteListing,
+  myListings,
+  blockDates,
+  unblockDates,
+  checkAvailability
+} from "./listings";
 
 export const appRouter = {
   healthCheck: publicProcedure.handler(() => "OK"),
@@ -24,6 +38,20 @@ export const appRouter = {
       getDetail,
     }
   },
+  listings: {
+    create: createListing,
+    list: listListings,
+    getById: getListingById,
+    categories: listCategories,
+    myListings,
+    blockDates,
+    unblockDates,
+    checkAvailability,
+    update: updateListing,
+    pause: pauseListing,
+    activate: activateListing,
+    delete: deleteListing
+  }
 };
 
 export type AppRouter = typeof appRouter;
