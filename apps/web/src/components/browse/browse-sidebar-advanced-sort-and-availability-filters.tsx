@@ -1,4 +1,3 @@
-import { Input } from "@chomuon/ui/components/input";
 import { Label } from "@chomuon/ui/components/label";
 import type { BrowseFilters } from "./browse-sidebar-search-filters";
 
@@ -20,29 +19,19 @@ const RATING_OPTIONS = [
   { val: 4.5, label: "⭐4.5+" },
 ];
 
-const AVAILABILITY_OPTIONS: { value: BrowseFilters["availability"]; label: string }[] = [
-  { value: "all", label: "Tất cả" },
-  { value: "available", label: "Còn trống" },
-  { value: "unavailable", label: "Đã cho thuê" },
-];
-
 interface Props {
   city: string;
   sortBy: BrowseFilters["sortBy"];
   minRating: number;
-  availability: BrowseFilters["availability"];
-  minDays: number;
   onCityChange: (v: string) => void;
   onSortByChange: (v: BrowseFilters["sortBy"]) => void;
   onMinRatingChange: (v: number) => void;
-  onAvailabilityChange: (v: BrowseFilters["availability"]) => void;
-  onMinDaysChange: (v: number) => void;
 }
 
-/** Advanced sort/availability/city/rating/minDays filter controls for the browse sidebar */
+/** Advanced sort/city/rating filter controls for the browse sidebar */
 export function BrowseSidebarAdvancedSortAndAvailabilityFilters({
-  city, sortBy, minRating, availability, minDays,
-  onCityChange, onSortByChange, onMinRatingChange, onAvailabilityChange, onMinDaysChange,
+  city, sortBy, minRating,
+  onCityChange, onSortByChange, onMinRatingChange,
 }: Props) {
   return (
     <>
@@ -102,42 +91,6 @@ export function BrowseSidebarAdvancedSortAndAvailabilityFilters({
             </button>
           ))}
         </div>
-      </div>
-
-      {/* Tình trạng */}
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-semibold text-foreground">Tình trạng</p>
-        <div className="flex flex-col gap-1">
-          {AVAILABILITY_OPTIONS.map((opt) => (
-            <label key={opt.value} className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground">
-              <input
-                type="radio"
-                name="availability"
-                value={opt.value}
-                checked={availability === opt.value}
-                onChange={() => onAvailabilityChange(opt.value)}
-                className="accent-primary"
-              />
-              {opt.label}
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Số ngày thuê tối thiểu */}
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="min-days-input" className="text-sm font-semibold">
-          Số ngày thuê tối thiểu
-        </Label>
-        <Input
-          id="min-days-input"
-          type="number"
-          placeholder="Ví dụ: 3"
-          min={0}
-          value={minDays || ""}
-          onChange={(e) => onMinDaysChange(Number(e.target.value))}
-          className="text-sm"
-        />
       </div>
     </>
   );

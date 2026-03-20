@@ -1,7 +1,20 @@
 import { Link } from "@tanstack/react-router";
-import { LISTINGS } from "@/data/marketplace-mock-data";
+import { useQuery } from "@tanstack/react-query";
+import { orpc } from "@/utils/orpc";
 
-function NewArrivalCard({ listing }: { listing: (typeof LISTINGS)[number] }) {
+interface NewArrivalListing {
+  id: string;
+  title: string;
+  thumbnailUrl: string | null;
+  pricePerDay: number;
+  district: string;
+  avgRating: string | null;
+  images: { url: string }[];
+}
+
+function NewArrivalCard({ listing }: { listing: NewArrivalListing }) {
+  const coverImage = listing.images[0]?.url ?? listing.thumbnailUrl;
+
   return (
     <Link
       to="/listing/$id"
@@ -11,11 +24,12 @@ function NewArrivalCard({ listing }: { listing: (typeof LISTINGS)[number] }) {
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:border-primary hover:shadow-md transition-all duration-200">
         {/* Portrait image */}
         <div className="aspect-[3/4] bg-gray-100 overflow-hidden">
-          {listing.images[0] && (
+          {coverImage && (
             <img
-              src={listing.images[0]}
+              src={coverImage}
               alt={listing.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+              loading="lazy"
             />
           )}
         </div>
@@ -31,7 +45,7 @@ function NewArrivalCard({ listing }: { listing: (typeof LISTINGS)[number] }) {
           <div className="flex items-center justify-between">
             <span className="text-xs text-gray-500 flex items-center gap-0.5">
               <span>⭐</span>
-              <span>{listing.rating.toFixed(1)}</span>
+              <span>{listing.avgRating ? Number(listing.avgRating).toFixed(1) : "Mới"}</span>
             </span>
             <span className="text-[10px] bg-amber-50 text-amber-700 border border-amber-200 rounded-full px-1.5 py-0.5 truncate max-w-[70px]">
               {listing.district}
@@ -44,8 +58,13 @@ function NewArrivalCard({ listing }: { listing: (typeof LISTINGS)[number] }) {
 }
 
 export function HomeNewArrivalsHorizontalScrollSection() {
-  // Last 6 listings as "new arrivals"
-  const newArrivals = LISTINGS.slice(-6);
+  const { data } = useQuery(orpc.listings.list.queryOptions({
+    input: { sortBy: "newest", limit: 6 },
+  }));
+
+  const newArrivals = data?.items ?? [];
+
+  if (newArrivals.length === 0) return null;
 
   return (
     <section className="py-6 px-4 bg-orange-50/50">

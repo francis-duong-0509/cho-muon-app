@@ -1,11 +1,15 @@
-import { LISTINGS } from "@/data/marketplace-mock-data";
 import { MarketplaceListingCard } from "@/components/listing/marketplace-listing-card";
+import { useQuery } from "@tanstack/react-query";
+import { orpc } from "@/utils/orpc";
 
 export function HomeSportsAndMusicListingsSection() {
-  const listings = LISTINGS.filter(
-    (listing) =>
-      listing.category === "sports" || listing.category === "music"
-  ).slice(0, 8);
+  const { data } = useQuery(orpc.listings.list.queryOptions({
+    input: { categoryId: "outdoor_sports", limit: 8 },
+  }));
+
+  const listings = data?.items ?? [];
+
+  if (listings.length === 0) return null;
 
   return (
     <section className="bg-white py-10 px-4">
@@ -13,7 +17,7 @@ export function HomeSportsAndMusicListingsSection() {
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">🏋️ Thể Thao &amp; Nhạc Cụ</h2>
           <a
-            href="/browse?category=sports"
+            href="/browse?category=outdoor_sports"
             className="text-primary font-medium hover:underline text-sm"
           >
             Xem tất cả →

@@ -11,7 +11,7 @@
 - [x] PostgreSQL + Drizzle ORM (auth schema only)
 - [x] Auth: email/password, email verification, password reset (better-auth)
 - [x] Frontend: TanStack Router + shadcn/ui + Tailwind v4
-- [x] Pages: Homepage (mock data), Browse (mock data), Login/Register, Forgot/Reset password
+- [x] Pages: Homepage (real API), Browse (real API), Login/Register, Forgot/Reset password
 - [x] oRPC server setup with publicProcedure / protectedProcedure / adminProcedure
 - [x] Docker Compose: MinIO (S3-compatible object storage) — API `localhost:19000`, Console `localhost:19001`
 - [x] S3 environment variables declared in `packages/env/src/server.ts`
@@ -94,7 +94,7 @@
 ---
 
 ### Phase 1A — Core Data Layer ✅ (Complete)
-**Duration:** 1 week | **Completed:** 2026-03-19
+**Duration:** 1 week | **Completed:** 2026-03-19 | **Updated:** 2026-03-20
 
 **Goal:** Real database schema for all marketplace entities.
 
@@ -112,7 +112,7 @@
 | Drizzle schema: categories | `categories` | ✅ |
 | All DB indexes + constraints + enums | All | ✅ |
 | Drizzle migrations applied | — | ✅ |
-| Seed script (categories) | — | ✅ |
+| Seed script (categories + demo listings) | — | ✅ |
 
 **Success Criteria:** ✅ `bun db:migrate` runs clean, all tables exist, categories seeded.
 
@@ -157,7 +157,8 @@
 | Image upload (2-8 photos, drag-reorder) | Inline | ⬜ |
 | Edit listing form + availability calendar | `/dashboard/listings/:id/edit` | ⬜ |
 | My Listings management page | `/dashboard/listings` | ⬜ |
-| Browse page: connect real API (replace mock data) | `/browse` | ⬜ |
+| Browse page: connect real API (replace mock data) | `/browse` | ✅ |
+| Homepage sections: connect real API (replace mock data) | `/` | ✅ |
 | Listing detail page: gallery, info, owner card, calendar, reviews | `/listing/:id` | ⬜ |
 | Admin listing moderation queue | `/admin/listings` | ⬜ |
 

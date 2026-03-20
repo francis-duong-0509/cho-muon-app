@@ -1,10 +1,15 @@
-import { LISTINGS } from "@/data/marketplace-mock-data";
 import { MarketplaceListingCard } from "@/components/listing/marketplace-listing-card";
+import { useQuery } from "@tanstack/react-query";
+import { orpc } from "@/utils/orpc";
 
 export function HomeKitchenAndAppliancesListingsSection() {
-  const listings = LISTINGS.filter(
-    (listing) => listing.category === "kitchen"
-  ).slice(0, 8);
+  const { data } = useQuery(orpc.listings.list.queryOptions({
+    input: { categoryId: "home_appliances", limit: 8 },
+  }));
+
+  const listings = data?.items ?? [];
+
+  if (listings.length === 0) return null;
 
   return (
     <section className="bg-gray-50 py-10 px-4">
@@ -12,7 +17,7 @@ export function HomeKitchenAndAppliancesListingsSection() {
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">🍳 Nhà Bếp &amp; Gia Dụng</h2>
           <a
-            href="/browse?category=kitchen"
+            href="/browse?category=home_appliances"
             className="text-primary font-medium hover:underline text-sm"
           >
             Xem tất cả →

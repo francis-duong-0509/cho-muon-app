@@ -1,10 +1,8 @@
-import { STATS } from "@/data/marketplace-mock-data";
-
 const STAT_ITEMS = [
-  { value: `${STATS.listings}+`, label: "Đồ cho thuê" },
-  { value: `${STATS.transactions}+`, label: "Giao dịch" },
-  { value: `${STATS.hosts}+`, label: "Chủ đồ" },
-  { value: `${STATS.cities}`, label: "Thành phố" },
+  { value: "100+", label: "Đồ cho thuê" },
+  { value: "500+", label: "Giao dịch" },
+  { value: "50+", label: "Chủ đồ" },
+  { value: "3", label: "Thành phố" },
 ];
 
 export function HomeStatsCounterSection() {

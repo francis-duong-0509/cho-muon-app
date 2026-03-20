@@ -1,10 +1,15 @@
-import { LISTINGS } from "@/data/marketplace-mock-data";
 import { MarketplaceListingCard } from "@/components/listing/marketplace-listing-card";
+import { useQuery } from "@tanstack/react-query";
+import { orpc } from "@/utils/orpc";
 
 export function HomeBudgetUnder150kListingsSection() {
-  const listings = LISTINGS.filter((listing) => listing.pricePerDay <= 150000)
-    .sort((a, b) => a.pricePerDay - b.pricePerDay)
-    .slice(0, 8);
+  const { data } = useQuery(orpc.listings.list.queryOptions({
+    input: { priceMax: 150000, sortBy: "price_asc", limit: 8 },
+  }));
+
+  const listings = data?.items ?? [];
+
+  if (listings.length === 0) return null;
 
   return (
     <section className="bg-amber-50/50 py-10 px-4">

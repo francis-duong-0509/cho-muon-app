@@ -119,16 +119,47 @@ export const list = publicProcedure
             price_asc: asc(listings.pricePerDay),
             price_desc: desc(listings.pricePerDay),
             rating: desc(listings.avgRating),
-        };
+        } as const;
 
-        // S3: Query: items + total count
+        // S3: Relational query for enriched items + count query in parallel
         const [items, [totalRow]] = await Promise.all([
-            db.select()
-                .from(listings)
-                .where(where)
-                .orderBy(orderMap[sortBy])
-                .limit(limit)
-                .offset(offset),
+            db.query.listings.findMany({
+                where,
+                orderBy: orderMap[sortBy],
+                limit,
+                offset,
+                columns: {
+                    id: true,
+                    title: true,
+                    thumbnailUrl: true,
+                    pricePerDay: true,
+                    province: true,
+                    district: true,
+                    avgRating: true,
+                    totalBookings: true,
+                    createdAt: true,
+                },
+                with: {
+                    owner: {
+                        columns: {
+                            displayName: true,
+                            avatarUrl: true,
+                        },
+                    },
+                    category: {
+                        columns: {
+                            id: true,
+                            name: true,
+                            icon: true,
+                        },
+                    },
+                    images: {
+                        columns: { url: true },
+                        orderBy: (images, { asc }) => [asc(images.sortOrder)],
+                        limit: 1,
+                    },
+                },
+            }),
             db.select({total: count()})
                 .from(listings)
                 .where(where),

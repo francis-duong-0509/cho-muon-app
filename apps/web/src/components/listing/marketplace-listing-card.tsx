@@ -2,15 +2,36 @@ import { Link } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@chomuon/ui/components/avatar";
 import { Badge } from "@chomuon/ui/components/badge";
 
-import type { Listing } from "@/types/marketplace-listing-types";
+interface ListingItem {
+  id: string;
+  title: string;
+  thumbnailUrl: string | null;
+  pricePerDay: number;
+  province: string;
+  district: string;
+  avgRating: string | null;
+  totalBookings: number;
+  owner?: {
+    displayName: string;
+    avatarUrl: string | null;
+  };
+  category?: {
+    id: string;
+    name: string;
+    icon: string | null;
+  };
+  images: { url: string }[];
+}
 
 interface MarketplaceListingCardProps {
-  listing: Listing;
+  listing: ListingItem;
 }
 
 export function MarketplaceListingCard({ listing }: MarketplaceListingCardProps) {
-  const { title, category, images, pricePerDay, district, rating, reviewCount, host, verified } = listing;
-  const coverImage = images[0];
+  const { title, thumbnailUrl, pricePerDay, district, avgRating, totalBookings, owner, category, images } = listing;
+
+  // Prefer first uploaded image, fallback to thumbnailUrl
+  const coverImage = images[0]?.url ?? thumbnailUrl;
 
   return (
     <Link to="/listing/$id" params={{ id: listing.id }} className="block group">
@@ -18,18 +39,20 @@ export function MarketplaceListingCard({ listing }: MarketplaceListingCardProps)
         {/* Image */}
         <div className="relative aspect-[4/3] bg-muted">
           {coverImage ? (
-            <img src={coverImage} alt={title} className="w-full h-full object-cover" />
-          ) : null}
-          {verified && (
-            <span className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs font-medium px-2 py-0.5 rounded-full">
-              Đã xác minh ✓
-            </span>
+            <img src={coverImage} alt={title} className="w-full h-full object-cover" loading="lazy" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-4xl text-muted-foreground">📷</div>
           )}
         </div>
 
         {/* Body */}
         <div className="p-3 flex flex-col gap-1.5">
-          <Badge variant="secondary" className="w-fit text-xs">{category}</Badge>
+          {category && (
+            <Badge variant="secondary" className="w-fit text-xs">
+              {category.icon && <span className="mr-1">{category.icon}</span>}
+              {category.name}
+            </Badge>
+          )}
 
           <p className="font-semibold text-sm leading-tight truncate">{title}</p>
 
@@ -46,16 +69,18 @@ export function MarketplaceListingCard({ listing }: MarketplaceListingCardProps)
           <div className="flex items-center justify-between pt-0.5">
             <span className="text-xs text-muted-foreground flex items-center gap-1">
               <span>⭐</span>
-              <span>{rating.toFixed(1)}</span>
-              <span>({reviewCount})</span>
+              <span>{avgRating ? Number(avgRating).toFixed(1) : "Mới"}</span>
+              {totalBookings > 0 && <span>({totalBookings})</span>}
             </span>
-            <div className="flex items-center gap-1.5 min-w-0">
-              <Avatar size="sm">
-                <AvatarImage src={host.avatar} alt={host.name} />
-                <AvatarFallback>{host.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <span className="text-xs text-muted-foreground truncate max-w-[80px]">{host.name}</span>
-            </div>
+            {owner && (
+              <div className="flex items-center gap-1.5 min-w-0">
+                <Avatar size="sm">
+                  <AvatarImage src={owner.avatarUrl ?? undefined} alt={owner.displayName} />
+                  <AvatarFallback>{owner.displayName.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <span className="text-xs text-muted-foreground truncate max-w-20">{owner.displayName}</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,40 +1,30 @@
-import { LISTINGS } from "@/data/marketplace-mock-data";
-import type { Host } from "@/types/marketplace-listing-types";
+// Top verified hosts — hardcoded placeholder until a hosts API is available
 
-interface HostWithListingCount extends Host {
+interface TopHost {
+  id: string;
+  name: string;
+  avatar: string;
+  rating: number;
+  reviewCount: number;
   listingCount: number;
+  verified: boolean;
 }
 
-function deriveTopHosts(): HostWithListingCount[] {
-  const countMap = new Map<string, number>();
-  const hostMap = new Map<string, Host>();
+const TOP_HOSTS: TopHost[] = [
+  { id: "1", name: "Francis Duong", avatar: "", rating: 4.9, reviewCount: 42, listingCount: 12, verified: true },
+  { id: "2", name: "Minh Nguyễn", avatar: "", rating: 4.8, reviewCount: 36, listingCount: 8, verified: true },
+  { id: "3", name: "Thảo Trần", avatar: "", rating: 4.7, reviewCount: 28, listingCount: 6, verified: true },
+  { id: "4", name: "Hùng Lê", avatar: "", rating: 4.6, reviewCount: 21, listingCount: 5, verified: true },
+];
 
-  for (const listing of LISTINGS) {
-    const { host } = listing;
-    hostMap.set(host.id, host);
-    countMap.set(host.id, (countMap.get(host.id) ?? 0) + 1);
-  }
-
-  return Array.from(hostMap.values())
-    .map((host) => ({ ...host, listingCount: countMap.get(host.id) ?? 0 }))
-    .sort((a, b) => b.rating - a.rating)
-    .slice(0, 4);
-}
-
-const TOP_HOSTS = deriveTopHosts();
-
-function HostCard({ host }: { host: HostWithListingCount }) {
+function HostCard({ host }: { host: TopHost }) {
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col items-center gap-2 text-center hover:border-primary hover:shadow-md transition-all duration-200 cursor-pointer">
       {/* Avatar */}
       <div className="relative">
-        <img
-          src={host.avatar}
-          alt={host.name}
-          width={56}
-          height={56}
-          className="rounded-full object-cover border-2 border-gray-100"
-        />
+        <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-xl font-bold text-primary border-2 border-gray-100">
+          {host.name.charAt(0)}
+        </div>
         {host.verified && (
           <span
             className="absolute -bottom-1 -right-1 bg-primary text-white text-[9px] rounded-full w-4 h-4 flex items-center justify-center font-bold leading-none"

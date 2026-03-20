@@ -37,14 +37,14 @@ export const categoriesRelations = relations(categories, ({ many }) => ({
 // Seed data — 8 categories từ DATA_MODEL ban đầu
 // Chạy sau khi migrate: bun db:seed
 export const CATEGORY_SEED = [
-  { id: "outdoor_sports",       name: "Outdoor & Thể thao",         nameEn: "Outdoor & Sports",        icon: "bike",       sortOrder: 1 },
-  { id: "electronics",          name: "Thiết bị điện tử",            nameEn: "Electronics",             icon: "laptop",     sortOrder: 2 },
-  { id: "home_appliances",      name: "Đồ gia dụng",                 nameEn: "Home Appliances",         icon: "home",       sortOrder: 3 },
-  { id: "fashion_accessories",  name: "Trang phục & Phụ kiện",       nameEn: "Fashion & Accessories",   icon: "shirt",      sortOrder: 4 },
-  { id: "tools_equipment",      name: "Dụng cụ & Thiết bị",          nameEn: "Tools & Equipment",       icon: "wrench",     sortOrder: 5 },
-  { id: "musical_instruments",  name: "Nhạc cụ",                     nameEn: "Musical Instruments",     icon: "music",      sortOrder: 6 },
-  { id: "event_party",          name: "Đồ dùng tiệc & Sự kiện",      nameEn: "Event & Party",           icon: "party",      sortOrder: 7 },
-  { id: "other",                name: "Khác",                         nameEn: "Other",                   icon: "more",       sortOrder: 8 },
+  { id: "outdoor_sports",       name: "Outdoor & Thể thao",         nameEn: "Outdoor & Sports",        icon: "🚴",  sortOrder: 1 },
+  { id: "electronics",          name: "Thiết bị điện tử",            nameEn: "Electronics",             icon: "💻",  sortOrder: 2 },
+  { id: "home_appliances",      name: "Đồ gia dụng",                 nameEn: "Home Appliances",         icon: "🏠",  sortOrder: 3 },
+  { id: "fashion_accessories",  name: "Trang phục & Phụ kiện",       nameEn: "Fashion & Accessories",   icon: "👔",  sortOrder: 4 },
+  { id: "tools_equipment",      name: "Dụng cụ & Thiết bị",          nameEn: "Tools & Equipment",       icon: "🔧",  sortOrder: 5 },
+  { id: "musical_instruments",  name: "Nhạc cụ",                     nameEn: "Musical Instruments",     icon: "🎸",  sortOrder: 6 },
+  { id: "event_party",          name: "Đồ dùng tiệc & Sự kiện",      nameEn: "Event & Party",           icon: "🎉",  sortOrder: 7 },
+  { id: "other",                name: "Khác",                         nameEn: "Other",                   icon: "📦",  sortOrder: 8 },
 ] as const;
 
 // Re-export for circular dep resolution

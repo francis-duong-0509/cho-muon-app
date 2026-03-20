@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { Badge } from "@chomuon/ui/components/badge";
-import { LISTINGS } from "@/data/marketplace-mock-data";
+import { useQuery } from "@tanstack/react-query";
+import { orpc } from "@/utils/orpc";
 
 // Fixed end time: 8h 45m 32s from a fixed reference point
 const DEAL_DURATION_SECONDS = 8 * 3600 + 45 * 60 + 32;
@@ -13,8 +14,17 @@ function formatTime(seconds: number): string {
   return [h, m, s].map((v) => String(v).padStart(2, "0")).join(":");
 }
 
-function FlashDealCard({ listing }: { listing: (typeof LISTINGS)[number] }) {
+interface FlashListing {
+  id: string;
+  title: string;
+  thumbnailUrl: string | null;
+  pricePerDay: number;
+  images: { url: string }[];
+}
+
+function FlashDealCard({ listing }: { listing: FlashListing }) {
   const originalPrice = Math.round(listing.pricePerDay * 1.3);
+  const coverImage = listing.images[0]?.url ?? listing.thumbnailUrl;
 
   return (
     <Link
@@ -25,11 +35,12 @@ function FlashDealCard({ listing }: { listing: (typeof LISTINGS)[number] }) {
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:border-primary hover:shadow-md transition-all duration-200">
         {/* Square image */}
         <div className="aspect-square bg-gray-100 overflow-hidden">
-          {listing.images[0] && (
+          {coverImage && (
             <img
-              src={listing.images[0]}
+              src={coverImage}
               alt={listing.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+              loading="lazy"
             />
           )}
         </div>
@@ -58,7 +69,12 @@ function FlashDealCard({ listing }: { listing: (typeof LISTINGS)[number] }) {
 
 export function HomeFlashDealsDailySection() {
   const [timeLeft, setTimeLeft] = useState(DEAL_DURATION_SECONDS);
-  const flashDeals = LISTINGS.slice(0, 5);
+
+  const { data } = useQuery(orpc.listings.list.queryOptions({
+    input: { sortBy: "price_asc", limit: 5 },
+  }));
+
+  const flashDeals = data?.items ?? [];
 
   useEffect(() => {
     if (timeLeft <= 0) return;
@@ -67,6 +83,8 @@ export function HomeFlashDealsDailySection() {
     }, 1000);
     return () => clearInterval(timer);
   }, [timeLeft]);
+
+  if (flashDeals.length === 0) return null;
 
   return (
     <section className="py-6 px-4">

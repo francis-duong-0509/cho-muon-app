@@ -1,13 +1,15 @@
-import { LISTINGS } from "@/data/marketplace-mock-data";
 import { MarketplaceListingCard } from "@/components/listing/marketplace-listing-card";
+import { useQuery } from "@tanstack/react-query";
+import { orpc } from "@/utils/orpc";
 
 export function HomeEventsAndOutdoorListingsSection() {
-  const eventsAndOutdoorListings = LISTINGS.filter(
-    (listing) =>
-      listing.category === "events" ||
-      listing.category === "camping" ||
-      listing.category === "sports"
-  );
+  const { data } = useQuery(orpc.listings.list.queryOptions({
+    input: { categoryId: "party_events", limit: 6 },
+  }));
+
+  const listings = data?.items ?? [];
+
+  if (listings.length === 0) return null;
 
   return (
     <section className="bg-gray-50 py-10 px-4">
@@ -15,7 +17,7 @@ export function HomeEventsAndOutdoorListingsSection() {
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">🎉 Sự Kiện &amp; Ngoài Trời</h2>
           <a
-            href="/browse?category=events"
+            href="/browse?category=party_events"
             className="text-primary font-medium hover:underline text-sm"
           >
             Xem thêm →
@@ -23,7 +25,7 @@ export function HomeEventsAndOutdoorListingsSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {eventsAndOutdoorListings.map((listing) => (
+          {listings.map((listing) => (
             <MarketplaceListingCard listing={listing} key={listing.id} />
           ))}
         </div>
