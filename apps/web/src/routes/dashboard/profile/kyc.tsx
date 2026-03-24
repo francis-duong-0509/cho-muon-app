@@ -2,6 +2,8 @@ import { client, orpc } from '@/utils/orpc';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react';
+import { Spinner } from '@/components/ui/spinner';
+import { CheckCircle, Clock, XCircle } from 'lucide-react';
 
 export const Route = createFileRoute('/dashboard/profile/kyc')({
   component: KycPage,
@@ -84,7 +86,7 @@ function KycPage() {
     });
   }
 
-  if (isLoading) return <div>Đang tải...</div>;
+  if (isLoading) return <Spinner variant="page" />;
 
   const status = data?.status ?? "NOT_SUBMITTED";
 
@@ -92,7 +94,7 @@ function KycPage() {
     return (
       <div>
         <h1 className='text-2xl font-bold mb-2'>Xác minh danh tính</h1>
-        <p className='text-green-600'>✅ Tài khoản của bạn đã được xác minh</p>
+        <p className='text-green-600 flex items-center gap-1.5'><CheckCircle className='w-5 h-5' /> Tài khoản của bạn đã được xác minh</p>
       </div>
     );
   }
@@ -101,7 +103,7 @@ function KycPage() {
     return (
       <div>
         <h1 className='text-2xl font-bold mb-2'>Xác minh danh tính</h1>
-        <p className='text-yellow-600'>⏳ Hồ sơ đang chờ được xác minh</p>
+        <p className='text-yellow-600 flex items-center gap-1.5'><Clock className='w-5 h-5' /> Hồ sơ đang chờ được xác minh</p>
       </div>
     );
   }
@@ -110,7 +112,7 @@ function KycPage() {
     return (
       <div>
         <h1 className='text-2xl font-bold mb-2'>Xác minh danh tính</h1>
-        <p className='text-red-600'>❌ Hồ sơ bị từ chối: {data?.rejectionReason}</p>
+        <p className='text-red-600 flex items-center gap-1.5'><XCircle className='w-5 h-5' /> Hồ sơ bị từ chối: {data?.rejectionReason}</p>
         <p className='mt-2 text-sm text-gray-500'>Bạn có thể nộp lại hồ sơ mới</p>
         <UploadForm onSubmit={handleSubmit} setFiles={setFiles} isPending={submitMutation.isPending} />
       </div>
