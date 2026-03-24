@@ -5,6 +5,7 @@ import { Label } from "@chomuon/ui/components/label";
 import { useNavigate } from "@tanstack/react-router";
 import { authClient } from "@/lib/auth-client";
 import { getAuthErrorMessage } from "@/lib/auth-error";
+import { Spinner } from "@/components/ui/spinner";
 
 export function UserLoginFormWithGoogle() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ export function UserLoginFormWithGoogle() {
     setLoading(true);
     setError(null);
 
-    const {error: signInError} = await authClient.signIn.email({email, password});
+    const { data, error: signInError } = await authClient.signIn.email({ email, password });
 
     if (signInError) {
       setError(getAuthErrorMessage(signInError.code));
@@ -26,8 +27,17 @@ export function UserLoginFormWithGoogle() {
       return;
     }
 
+    // Block admin accounts from user login
+    const adminRoles = ["admin", "super_admin"];
+    if (adminRoles.includes(data?.user?.role ?? "")) {
+      await authClient.signOut();
+      setError("Tài khoản quản trị không thể đăng nhập tại đây. Vui lòng sử dụng trang quản trị (/admin).");
+      setLoading(false);
+      return;
+    }
+
     navigate({ to: "/" });
-    setLoading(false)
+    setLoading(false);
   }
 
   return (
@@ -76,7 +86,7 @@ export function UserLoginFormWithGoogle() {
           disabled={loading}
           className="w-full bg-primary text-primary-foreground mt-1"
         >
-          {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+          {loading ? <><Spinner variant="inline" /> Đang đăng nhập...</> : "Đăng nhập"}
         </Button>
       </form>
 

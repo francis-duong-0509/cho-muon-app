@@ -1,11 +1,93 @@
-// Load .env before any env-dependent imports (path relative to packages/db/)
 import { config } from "dotenv";
 config({ path: "../../apps/server/.env" });
 import { db } from "./index";
 import { categories } from "./schema/categories";
 import { listings } from "./schema/listings";
 import { userProfile } from "./schema/users";
+import { user, account } from "./schema/auth";
 import { eq, sql } from "drizzle-orm";
+import { scrypt, randomBytes } from "node:crypto";
+
+/**
+ * Hash password using the same format as better-auth:
+ * scrypt with N=16384, r=16, p=1, dkLen=64 → "salt:hash" in hex
+ */
+async function hashPassword(password: string): Promise<string> {
+  const salt = randomBytes(16).toString("hex");
+  const key = await new Promise<Buffer>((resolve, reject) => {
+    scrypt(
+      password.normalize("NFKC"),
+      salt,
+      64,
+      { N: 16384, r: 16, p: 1, maxmem: 128 * 16384 * 16 * 2 },
+      (err, derivedKey) => (err ? reject(err) : resolve(derivedKey))
+    );
+  });
+  return `${salt}:${key.toString("hex")}`;
+}
+
+// --- Super Admin seed ---
+const SUPER_ADMIN = {
+  email: "admin@gmail.com",
+  name: "Super Admin",
+  password: "123123123",
+  role: "super_admin",
+  phone: "0000000000",
+};
+
+async function seedSuperAdmin() {
+  console.log("🔑 Seeding super admin...");
+
+  // Check if admin already exists
+  const [existing] = await db
+    .select({ id: user.id })
+    .from(user)
+    .where(eq(user.email, SUPER_ADMIN.email))
+    .limit(1);
+
+  if (existing) {
+    // Update role to super_admin in case it was different
+    await db
+      .update(user)
+      .set({ role: SUPER_ADMIN.role })
+      .where(eq(user.id, existing.id));
+    console.log(`✅ Super admin already exists (${SUPER_ADMIN.email}), role updated.`);
+    return;
+  }
+
+  const adminId = crypto.randomUUID();
+  const hashedPassword = await hashPassword(SUPER_ADMIN.password);
+
+  await db.transaction(async (tx) => {
+    // 1. Create user record
+    await tx.insert(user).values({
+      id: adminId,
+      name: SUPER_ADMIN.name,
+      email: SUPER_ADMIN.email,
+      emailVerified: true,
+      phone: SUPER_ADMIN.phone,
+      role: SUPER_ADMIN.role,
+    });
+
+    // 2. Create account record (credential provider)
+    await tx.insert(account).values({
+      id: crypto.randomUUID(),
+      accountId: adminId,
+      providerId: "credential",
+      userId: adminId,
+      password: hashedPassword,
+    });
+
+    // 3. Create user profile
+    await tx.insert(userProfile).values({
+      userId: adminId,
+      phone: SUPER_ADMIN.phone,
+      displayName: SUPER_ADMIN.name,
+    });
+  });
+
+  console.log(`✅ Super admin created: ${SUPER_ADMIN.email} / ${SUPER_ADMIN.password}`);
+}
 
 // --- Categories with emoji icons ---
 const CATEGORY_SEED = [
@@ -58,6 +140,9 @@ const LISTING_TEMPLATES = [
 ];
 
 async function seed() {
+  // Seed super admin first
+  await seedSuperAdmin();
+
   console.log("🌱 Seeding categories...");
 
   // Upsert categories — update icon if already exists
