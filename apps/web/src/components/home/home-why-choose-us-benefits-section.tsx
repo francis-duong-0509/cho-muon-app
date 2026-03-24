@@ -1,25 +1,28 @@
-const BENEFITS = [
+import { Truck, Coins, Star, Lock } from "lucide-react";
+import type { ReactNode } from "react";
+
+const BENEFITS: { id: number; icon: ReactNode; title: string; description: string }[] = [
   {
     id: 1,
-    icon: "🚚",
+    icon: <Truck className="w-6 h-6 text-primary" />,
     title: "Giao dịch trực tiếp",
     description: "Gặp mặt trao đổi nhanh chóng",
   },
   {
     id: 2,
-    icon: "💰",
+    icon: <Coins className="w-6 h-6 text-primary" />,
     title: "Tiết kiệm đến 90%",
     description: "So với mua đồ mới",
   },
   {
     id: 3,
-    icon: "⭐",
+    icon: <Star className="w-6 h-6 text-primary" />,
     title: "Đánh giá 2 chiều",
     description: "Minh bạch, uy tín",
   },
   {
     id: 4,
-    icon: "🔒",
+    icon: <Lock className="w-6 h-6 text-primary" />,
     title: "Đặt cọc bảo vệ",
     description: "Quyền lợi cả 2 bên",
   },
@@ -35,7 +38,7 @@ export function HomeWhyChooseUsBenefitsSection() {
               key={benefit.id}
               className="flex flex-col sm:flex-row items-center sm:items-start gap-3 px-6 py-4 sm:py-0"
             >
-              <span className="text-2xl shrink-0">{benefit.icon}</span>
+              <span className="shrink-0">{benefit.icon}</span>
               <div className="flex flex-col gap-0.5 text-center sm:text-left">
                 <span className="font-bold text-sm text-gray-900">{benefit.title}</span>
                 <span className="text-xs text-gray-600">{benefit.description}</span>

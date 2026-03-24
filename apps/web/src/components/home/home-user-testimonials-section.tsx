@@ -1,3 +1,5 @@
+import { Quote, Star } from "lucide-react";
+
 const TESTIMONIALS = [
   {
     id: 1,
@@ -30,7 +32,7 @@ export function HomeUserTestimonialsSection() {
     <section className="py-14 px-4 bg-amber-50/40">
       <div className="max-w-5xl mx-auto flex flex-col gap-8">
         {/* Header */}
-        <h2 className="text-2xl font-bold text-center text-gray-900">💬 Người Dùng Nói Gì</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-900 flex items-center gap-2 justify-center"><Quote className="w-6 h-6 text-primary" /> Người Dùng Nói Gì</h2>
 
         {/* Testimonial cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -50,7 +52,7 @@ export function HomeUserTestimonialsSection() {
               {/* Stars */}
               <div className="flex gap-0.5">
                 {Array.from({ length: t.rating }).map((_, i) => (
-                  <span key={i} className="text-primary text-sm">⭐</span>
+                  <Star key={i} className="w-3.5 h-3.5 text-primary fill-primary" />
                 ))}
               </div>
 

@@ -14,9 +14,9 @@ export const SORT_OPTIONS: { value: BrowseFilters["sortBy"]; label: string }[] =
 
 const RATING_OPTIONS = [
   { val: 0, label: "Tất cả" },
-  { val: 3, label: "⭐3+" },
-  { val: 4, label: "⭐4+" },
-  { val: 4.5, label: "⭐4.5+" },
+  { val: 3, label: "★3+" },
+  { val: 4, label: "★4+" },
+  { val: 4.5, label: "★4.5+" },
 ];
 
 interface Props {

@@ -1,6 +1,7 @@
 import { MarketplaceListingCard } from "@/components/listing/marketplace-listing-card";
 import { useQuery } from "@tanstack/react-query";
 import { orpc } from "@/utils/orpc";
+import { CookingPot } from "lucide-react";
 
 export function HomeKitchenAndAppliancesListingsSection() {
   const { data } = useQuery(orpc.listings.list.queryOptions({
@@ -15,7 +16,7 @@ export function HomeKitchenAndAppliancesListingsSection() {
     <section className="bg-gray-50 py-10 px-4">
       <div className="max-w-7xl mx-auto flex flex-col gap-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">🍳 Nhà Bếp &amp; Gia Dụng</h2>
+          <h2 className="text-2xl font-bold flex items-center gap-2"><CookingPot className="w-6 h-6 text-primary" /> Nhà Bếp &amp; Gia Dụng</h2>
           <a
             href="/browse?category=home_appliances"
             className="text-primary font-medium hover:underline text-sm"

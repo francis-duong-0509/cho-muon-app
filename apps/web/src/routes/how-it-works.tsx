@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNavbarWithAuthCta } from "@/components/layout/site-navbar-with-auth-cta";
 import { SiteFooterWithNavLinks } from "@/components/layout/site-footer-with-nav-links";
+import { ShoppingBag, Home } from "lucide-react";
 
 export const Route = createFileRoute("/how-it-works")({
   component: HowItWorksPage,
@@ -72,7 +73,7 @@ function HowItWorksPage() {
         {/* For Renters */}
         <section>
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-2xl">🛍️</span>
+            <ShoppingBag className="w-6 h-6 text-primary" />
             <h2 className="text-xl font-bold text-foreground">Dành cho người thuê</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -85,7 +86,7 @@ function HowItWorksPage() {
         {/* For Owners */}
         <section>
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-2xl">🏠</span>
+            <Home className="w-6 h-6 text-primary" />
             <h2 className="text-xl font-bold text-foreground">Dành cho chủ đồ</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

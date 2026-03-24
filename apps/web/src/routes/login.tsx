@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@chomuon/ui/components/tabs";
 import { UserLoginFormWithGoogle } from "@/components/auth/user-login-form-with-google";
 import { UserRegisterFormWithTerms } from "@/components/auth/user-register-form-with-terms";
+import { Lock, ShieldCheck, Star, MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -41,13 +42,13 @@ function LoginPage() {
           {/* Trust points */}
           <div className="flex flex-col gap-3 w-full">
             {[
-              { icon: "🔒", text: "Giao dịch an toàn & minh bạch" },
-              { icon: "✅", text: "Chủ đồ được xác minh danh tính" },
-              { icon: "⭐", text: "Đánh giá thực từ người dùng" },
-              { icon: "💬", text: "Hỗ trợ giải quyết tranh chấp 24/7" },
+              { icon: <Lock className="w-5 h-5 text-primary" />, text: "Giao dịch an toàn & minh bạch" },
+              { icon: <ShieldCheck className="w-5 h-5 text-primary" />, text: "Chủ đồ được xác minh danh tính" },
+              { icon: <Star className="w-5 h-5 text-primary" />, text: "Đánh giá thực từ người dùng" },
+              { icon: <MessageCircle className="w-5 h-5 text-primary" />, text: "Hỗ trợ giải quyết tranh chấp 24/7" },
             ].map(({ icon, text }) => (
               <div key={text} className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3 border border-white/8">
-                <span className="text-lg shrink-0">{icon}</span>
+                <span className="shrink-0">{icon}</span>
                 <span className="text-gray-300 text-sm">{text}</span>
               </div>
             ))}

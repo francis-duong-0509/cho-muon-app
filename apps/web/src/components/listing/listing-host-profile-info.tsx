@@ -5,6 +5,7 @@ import { Badge } from "@chomuon/ui/components/badge"
 import { Button } from "@chomuon/ui/components/button"
 import { Separator } from "@chomuon/ui/components/separator"
 import type { Host } from "@/types/marketplace-listing-types"
+import { Star, MessageCircle, Timer } from "lucide-react"
 
 interface ListingHostProfileInfoProps {
   host: Host
@@ -36,16 +37,16 @@ export function ListingHostProfileInfo({ host }: ListingHostProfileInfoProps) {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-2 text-sm">
         <div className="flex items-center gap-1.5 text-muted-foreground">
-          <span>⭐</span>
+          <Star className="w-4 h-4 text-primary fill-primary" />
           <span className="font-medium text-foreground">{rating.toFixed(1)}</span>
           <span>({reviewCount} đánh giá)</span>
         </div>
         <div className="flex items-center gap-1.5 text-muted-foreground">
-          <span>💬</span>
+          <MessageCircle className="w-4 h-4" />
           <span>Phản hồi {responseRate}%</span>
         </div>
         <div className="flex items-center gap-1.5 text-muted-foreground col-span-2">
-          <span>⏱</span>
+          <Timer className="w-4 h-4" />
           <span>Thường trả lời trong {responseTime}</span>
         </div>
       </div>

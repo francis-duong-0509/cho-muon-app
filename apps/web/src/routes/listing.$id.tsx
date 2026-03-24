@@ -4,6 +4,7 @@ import { SiteFooterWithNavLinks } from "@/components/layout/site-footer-with-nav
 import { ListingImageGalleryWithLightbox } from "@/components/listing/listing-image-gallery-with-lightbox";
 import { orpc, queryClient } from "@/utils/orpc";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { Share2, Bookmark, User, Frown } from "lucide-react";
 
 export const Route = createFileRoute("/listing/$id")({
   loader: ({ params }) => {
@@ -25,7 +26,7 @@ function ListingDetailPage() {
       <div className="min-h-screen bg-background">
         <SiteNavbarWithAuthCta />
         <div className="max-w-4xl mx-auto px-4 py-24 text-center">
-          <p className="text-4xl mb-4">😕</p>
+          <Frown className="w-10 h-10 text-muted-foreground mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-foreground mb-2">Không tìm thấy đồ</h1>
           <p className="text-muted-foreground mb-6">
             Món đồ này không tồn tại hoặc đã bị gỡ.
@@ -48,8 +49,8 @@ function ListingDetailPage() {
   // Map pickupMethod enum to Vietnamese display text
   const pickupMethodLabel =
     listing.pickupMethod === "SHIP_AVAILABLE"
-      ? "📦 Giao hàng / Gặp mặt"
-      : "🤝 Gặp mặt trực tiếp";
+      ? "Giao hàng / Gặp mặt"
+      : "Gặp mặt trực tiếp";
 
   return (
     <div className="min-h-screen bg-background">
@@ -70,14 +71,14 @@ function ListingDetailPage() {
               type="button"
               className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
             >
-              <span>↗</span>
+              <Share2 className="w-4 h-4" />
               <span>Chia sẻ</span>
             </button>
             <button
               type="button"
               className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
             >
-              <span>💾</span>
+              <Bookmark className="w-4 h-4" />
               <span>Lưu tin</span>
             </button>
           </div>
@@ -138,7 +139,7 @@ function ListingDetailPage() {
               />
             ) : (
               <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center text-2xl shrink-0">
-                👤
+                <User className="w-8 h-8 text-muted-foreground" />
               </div>
             )}
             <div className="flex-1 min-w-0">

@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Badge } from "@chomuon/ui/components/badge";
 import { useQuery } from "@tanstack/react-query";
 import { orpc } from "@/utils/orpc";
+import { Zap } from "lucide-react";
 
 // Fixed end time: 8h 45m 32s from a fixed reference point
 const DEAL_DURATION_SECONDS = 8 * 3600 + 45 * 60 + 32;
@@ -92,7 +93,7 @@ export function HomeFlashDealsDailySection() {
         {/* Header banner */}
         <div className="bg-gradient-to-r from-red-500 to-amber-500 rounded-xl px-4 py-3 flex items-center justify-between mb-4 border-l-4 border-red-700">
           <span className="text-white font-bold text-base tracking-wide">
-            ⚡ Giá Tốt Hôm Nay
+            <Zap className="w-4 h-4 inline mr-1" /> Giá Tốt Hôm Nay
           </span>
           <div className="flex items-center gap-2">
             <span className="text-white/80 text-xs">Còn lại:</span>

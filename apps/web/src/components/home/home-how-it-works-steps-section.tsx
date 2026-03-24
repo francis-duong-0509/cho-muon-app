@@ -1,19 +1,22 @@
-const STEPS = [
+import { Search, MessageCircle, Handshake } from "lucide-react";
+import type { ReactNode } from "react";
+
+const STEPS: { number: number; icon: ReactNode; title: string; description: string }[] = [
   {
     number: 1,
-    icon: "🔍",
+    icon: <Search className="w-7 h-7 text-primary" />,
     title: "Tìm đồ bạn cần",
     description: "Tìm kiếm theo danh mục hoặc địa điểm",
   },
   {
     number: 2,
-    icon: "💬",
+    icon: <MessageCircle className="w-7 h-7 text-primary" />,
     title: "Liên hệ chủ đồ",
     description: "Chat trực tiếp, hỏi thêm chi tiết",
   },
   {
     number: 3,
-    icon: "🤝",
+    icon: <Handshake className="w-7 h-7 text-primary" />,
     title: "Nhận đồ & sử dụng",
     description: "Gặp mặt hoặc giao hàng, thanh toán an toàn",
   },
@@ -34,7 +37,7 @@ export function HomeHowItWorksStepsSection() {
                 <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm shrink-0">
                   {step.number}
                 </div>
-                <span className="text-3xl">{step.icon}</span>
+                {step.icon}
                 <div className="flex flex-col gap-1">
                   <p className="font-semibold text-sm">{step.title}</p>
                   <p className="text-muted-foreground text-xs">{step.description}</p>

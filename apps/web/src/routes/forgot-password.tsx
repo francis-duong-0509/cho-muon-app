@@ -4,6 +4,8 @@ import { authClient } from "@/lib/auth-client";
 import { Input } from "@chomuon/ui/components/input";
 import { Button } from "@chomuon/ui/components/button";
 import { Label } from "@chomuon/ui/components/label";
+import { Mail } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 
 export const Route = createFileRoute("/forgot-password")({
   component: ForgotPasswordPage,
@@ -39,7 +41,7 @@ function ForgotPasswordPage() {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <div className="flex flex-col gap-4 text-center max-w-sm">
-          <div className="text-4xl">📧</div>
+          <Mail className="w-10 h-10 text-primary mx-auto" />
           <h2 className="text-xl font-bold">Kiểm tra email!</h2>
           <p className="text-sm text-muted-foreground">
             Nếu <strong>{email}</strong> tồn tại trong hệ thống,
@@ -80,7 +82,7 @@ function ForgotPasswordPage() {
           {error && <p className="text-sm text-red-500">{error}</p>}
 
           <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Đang gửi..." : "Gửi link đặt lại mật khẩu"}
+            {loading ? <><Spinner variant="inline" /> Đang gửi...</> : "Gửi link đặt lại mật khẩu"}
           </Button>
         </form>
 

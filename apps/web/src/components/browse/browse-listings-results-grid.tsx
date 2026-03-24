@@ -1,4 +1,5 @@
 import { MarketplaceListingCard } from "@/components/listing/marketplace-listing-card";
+import { SearchX } from "lucide-react";
 
 const PAGE_SIZE = 12; // 4 cols × 3 rows
 
@@ -28,7 +29,7 @@ export function BrowseListingsResultsGrid({ listings, totalCount, page, onPageCh
       {/* Results grid — 2 col mobile, 3 col tablet, 4 col desktop */}
       {listings.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 gap-3 text-muted-foreground">
-          <span className="text-4xl">🔍</span>
+          <SearchX className="w-10 h-10 text-muted-foreground" />
           <p className="text-sm">Không tìm thấy kết quả. Thử thay đổi bộ lọc.</p>
         </div>
       ) : (

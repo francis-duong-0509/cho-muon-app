@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@chomuon/ui/components/avatar";
 import { Badge } from "@chomuon/ui/components/badge";
+import { Camera, Star, MapPin } from "lucide-react";
 
 interface ListingItem {
   id: string;
@@ -37,11 +38,11 @@ export function MarketplaceListingCard({ listing }: MarketplaceListingCardProps)
     <Link to="/listing/$id" params={{ id: listing.id }} className="block group">
       <div className="bg-card border border-border rounded-xl overflow-hidden transition-all duration-200 group-hover:scale-[1.02] group-hover:shadow-lg">
         {/* Image */}
-        <div className="relative aspect-[4/3] bg-muted">
+        <div className="relative aspect-4/3 bg-muted">
           {coverImage ? (
             <img src={coverImage} alt={title} className="w-full h-full object-cover" loading="lazy" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-4xl text-muted-foreground">📷</div>
+            <div className="w-full h-full flex items-center justify-center text-muted-foreground"><Camera className="w-10 h-10" /></div>
           )}
         </div>
 
@@ -57,7 +58,7 @@ export function MarketplaceListingCard({ listing }: MarketplaceListingCardProps)
           <p className="font-semibold text-sm leading-tight truncate">{title}</p>
 
           <p className="text-muted-foreground text-sm flex items-center gap-1">
-            <span>📍</span>
+            <MapPin className="w-3.5 h-3.5 shrink-0" />
             <span className="truncate">{district}</span>
           </p>
 
@@ -68,7 +69,7 @@ export function MarketplaceListingCard({ listing }: MarketplaceListingCardProps)
           {/* Bottom row */}
           <div className="flex items-center justify-between pt-0.5">
             <span className="text-xs text-muted-foreground flex items-center gap-1">
-              <span>⭐</span>
+              <Star className="w-3.5 h-3.5 text-primary fill-primary" />
               <span>{avgRating ? Number(avgRating).toFixed(1) : "Mới"}</span>
               {totalBookings > 0 && <span>({totalBookings})</span>}
             </span>

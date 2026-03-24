@@ -1,14 +1,14 @@
 import type { Category, Listing } from "@/types/marketplace-listing-types";
 
 export const CATEGORIES: Category[] = [
-  { id: "camera", name: "Máy ảnh & Quay phim", icon: "📷", count: 48 },
-  { id: "camping", name: "Cắm trại & Dã ngoại", icon: "⛺", count: 35 },
-  { id: "kitchen", name: "Dụng cụ nhà bếp", icon: "🍳", count: 62 },
-  { id: "sports", name: "Thể thao & Fitness", icon: "🏋️", count: 41 },
-  { id: "music", name: "Nhạc cụ", icon: "🎸", count: 29 },
-  { id: "electronics", name: "Thiết bị điện tử", icon: "💻", count: 57 },
-  { id: "events", name: "Đồ dùng sự kiện", icon: "🎉", count: 33 },
-  { id: "bicycle", name: "Xe đạp & Di chuyển", icon: "🚲", count: 24 },
+  { id: "camera", name: "Máy ảnh & Quay phim", count: 48 },
+  { id: "camping", name: "Cắm trại & Dã ngoại", count: 35 },
+  { id: "kitchen", name: "Dụng cụ nhà bếp", count: 62 },
+  { id: "sports", name: "Thể thao & Fitness", count: 41 },
+  { id: "music", name: "Nhạc cụ", count: 29 },
+  { id: "electronics", name: "Thiết bị điện tử", count: 57 },
+  { id: "events", name: "Đồ dùng sự kiện", count: 33 },
+  { id: "bicycle", name: "Xe đạp & Di chuyển", count: 24 },
 ];
 
 const HOSTS = {

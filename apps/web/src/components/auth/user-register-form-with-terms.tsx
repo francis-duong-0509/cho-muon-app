@@ -6,6 +6,8 @@ import { Checkbox } from "@chomuon/ui/components/checkbox";
 import { authClient } from "@/lib/auth-client";
 import { useNavigate } from "@tanstack/react-router";
 import { getAuthErrorMessage } from "@/lib/auth-error";
+import { Mail } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 
 export function UserRegisterFormWithTerms() {
   const [fullName, setFullName] = useState("");
@@ -42,7 +44,7 @@ export function UserRegisterFormWithTerms() {
       return;
     }
 
-    const {data, error: signUpError} = await authClient.signUp.email({
+    const { error: signUpError } = await authClient.signUp.email({
       email,
       password,
       name: fullName,
@@ -62,7 +64,7 @@ export function UserRegisterFormWithTerms() {
   if (success) {
     return (
       <div className="flex flex-col gap-4 text-center">
-        <div className="text-4xl">📧</div>
+        <Mail className="w-10 h-10 text-primary mx-auto" />
         <h2 className="text-xl font-bold">Kiểm tra email của bạn!</h2>
         <p className="text-sm text-muted-foreground">
           Nếu <strong>{email}</strong> chưa được sử dụng,
@@ -182,7 +184,7 @@ export function UserRegisterFormWithTerms() {
           disabled={!agreedToTerms || loading}
           className="w-full bg-primary text-primary-foreground mt-1"
         >
-          {loading ? "Đang đăng ký..." : "Đăng ký"}
+          {loading ? <><Spinner variant="inline" /> Đang đăng ký...</> : "Đăng ký"}
         </Button>
       </form>
 

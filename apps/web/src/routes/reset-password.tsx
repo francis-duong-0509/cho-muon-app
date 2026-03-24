@@ -5,6 +5,8 @@ import { authClient } from "@/lib/auth-client";
 import { Input } from "@chomuon/ui/components/input";
 import { Button } from "@chomuon/ui/components/button";
 import { Label } from "@chomuon/ui/components/label";
+import { XCircle, CheckCircle } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 
 export const Route = createFileRoute("/reset-password")({
   validateSearch: z.object({
@@ -26,7 +28,7 @@ function ResetPasswordPage() {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <div className="flex flex-col gap-4 text-center max-w-sm">
-          <div className="text-4xl">❌</div>
+          <XCircle className="w-10 h-10 text-red-500 mx-auto" />
           <h2 className="text-xl font-bold">Link không hợp lệ</h2>
           <p className="text-sm text-muted-foreground">
             Link đặt lại mật khẩu đã hết hạn hoặc không hợp lệ.
@@ -69,7 +71,7 @@ function ResetPasswordPage() {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <div className="flex flex-col gap-4 text-center max-w-sm">
-          <div className="text-4xl">✅</div>
+          <CheckCircle className="w-10 h-10 text-green-500 mx-auto" />
           <h2 className="text-xl font-bold">Đặt lại mật khẩu thành công!</h2>
           <p className="text-sm text-muted-foreground">
             Mật khẩu của bạn đã được cập nhật.
@@ -122,7 +124,7 @@ function ResetPasswordPage() {
           {error && <p className="text-sm text-red-500">{error}</p>}
 
           <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Đang cập nhật..." : "Đặt lại mật khẩu"}
+            {loading ? <><Spinner variant="inline" /> Đang cập nhật...</> : "Đặt lại mật khẩu"}
           </Button>
         </form>
       </div>

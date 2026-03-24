@@ -1,3 +1,5 @@
+import { MapPin, Building2 } from "lucide-react";
+
 const DISTRICTS = [
   { name: "Quận 1", slug: "quan-1", count: 72 },
   { name: "Quận 2", slug: "quan-2", count: 48 },
@@ -15,7 +17,7 @@ export function HomeBrowseByDistrictSection() {
       <div className="max-w-5xl mx-auto flex flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col gap-1 text-center">
-          <h2 className="text-2xl font-bold text-gray-900">📍 Tìm Đồ Gần Bạn</h2>
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><MapPin className="w-6 h-6 text-primary" /> Tìm Đồ Gần Bạn</h2>
           <p className="text-gray-600 text-sm">Hơn 500 món đồ có sẵn tại TP. Hồ Chí Minh</p>
         </div>
 
@@ -33,7 +35,7 @@ export function HomeBrowseByDistrictSection() {
                 group
               "
             >
-              <span className="text-2xl">🏙️</span>
+              <Building2 className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" />
               <span className="font-semibold text-sm text-gray-900 group-hover:text-primary transition-colors">
                 {district.name}
               </span>

@@ -1,16 +1,19 @@
-const PILLARS = [
+import { IdCard, Star, ShieldCheck } from "lucide-react";
+import type { ReactNode } from "react";
+
+const PILLARS: { icon: ReactNode; title: string; description: string }[] = [
   {
-    icon: "🪪",
+    icon: <IdCard className="w-6 h-6 text-primary" />,
     title: "Xác minh danh tính",
     description: "Hồ sơ được xác minh với CMND/CCCD",
   },
   {
-    icon: "⭐",
+    icon: <Star className="w-6 h-6 text-primary" />,
     title: "Hệ thống đánh giá",
     description: "Đánh giá 2 chiều sau mỗi giao dịch",
   },
   {
-    icon: "🛡️",
+    icon: <ShieldCheck className="w-6 h-6 text-primary" />,
     title: "Đặt cọc bảo vệ",
     description: "Đặt cọc đảm bảo quyền lợi cả 2 bên",
   },
