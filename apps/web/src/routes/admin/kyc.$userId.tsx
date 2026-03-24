@@ -2,6 +2,8 @@ import { orpc } from '@/utils/orpc';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react';
+import { CheckCircle, XCircle, ArrowLeft } from 'lucide-react';
+import { Spinner } from '@/components/ui/spinner';
 
 export const Route = createFileRoute('/admin/kyc/$userId')({
   component: AdminKycDetailPage,
@@ -34,13 +36,13 @@ function AdminKycDetailPage() {
     }
   }));
 
-  if (isLoading) return <div>Đang tải...</div>
+  if (isLoading) return <Spinner variant="page" />
   if (!data) return <div>Không tìm thấy hồ sơ</div>
 
   return (
     <div className='max-w-2xl'>
-      <button className='text-sm text-gray-500 mb-4' onClick={() => navigate({to: '/admin/kyc'})}>
-        ← Quay lại
+      <button className='text-sm text-gray-500 mb-4 flex items-center gap-1' onClick={() => navigate({to: '/admin/kyc'})}>
+        <ArrowLeft className='w-4 h-4' /> Quay lại
       </button>
       <h1 className='text-2xl font-bold mb-4'>KYC: {data.fullName}</h1>
       <div className='space-y-2 mb-6 text-sm'>
@@ -70,14 +72,14 @@ function AdminKycDetailPage() {
             disabled={approveMutation.isPending}
             className='bg-green-600 text-white px-4 py-2 rounded'
           >
-            {approveMutation.isPending ? 'Đang xử lý...' : '✅ Duyệt'}
+            {approveMutation.isPending ? 'Đang xử lý...' : <><CheckCircle className='w-4 h-4 inline mr-1' /> Duyệt</>}
           </button>
 
           {!showRejectInput ? (
             <button 
               onClick={() => setShowRejectInput(true)}
               className='bg-red-600 text-white px-4 py-2 rounded'>
-                ❌ Từ chối
+                <XCircle className='w-4 h-4 inline mr-1' /> Từ chối
             </button>
           ) : (
             <div className='flex gap-2'>

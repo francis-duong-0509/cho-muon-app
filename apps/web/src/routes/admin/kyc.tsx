@@ -1,4 +1,5 @@
 import { orpc } from '@/utils/orpc';
+import { Spinner } from '@/components/ui/spinner';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
@@ -10,7 +11,7 @@ function AdminKycPage() {
   const navigate = useNavigate();
   const { data, isLoading } = useQuery(orpc.kyc.admin.listPending.queryOptions());
 
-  if (isLoading) return <div>Đang tải...</div>
+  if (isLoading) return <Spinner variant="page" />
 
   return (
     <div>
