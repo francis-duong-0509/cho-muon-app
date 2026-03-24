@@ -6,10 +6,10 @@ const FOOTER_COLUMNS = [
     heading: "Khám phá",
     links: [
       { label: "Duyệt đồ cho thuê", href: "/browse" },
-      { label: "📷 Máy ảnh & Quay phim", href: "/browse?category=camera" },
-      { label: "⛺ Cắm trại & Dã ngoại", href: "/browse?category=camping" },
-      { label: "🎉 Đồ dùng sự kiện", href: "/browse?category=events" },
-      { label: "🏋️ Thể thao & Fitness", href: "/browse?category=sports" },
+      { label: "Máy ảnh & Quay phim", href: "/browse?category=camera" },
+      { label: "Cắm trại & Dã ngoại", href: "/browse?category=camping" },
+      { label: "Đồ dùng sự kiện", href: "/browse?category=events" },
+      { label: "Thể thao & Fitness", href: "/browse?category=sports" },
     ],
   },
   {
