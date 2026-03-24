@@ -18,8 +18,9 @@
 
 **In Progress / Stub:**
 - [ ] Listing detail page (route exists, no real data)
-- [ ] Admin dashboard (route exists, empty)
-- [ ] How-it-works, Policy pages (stubs)
+- [x] Admin dashboard (login, layout, overview page)
+- [x] How-it-works page
+- [ ] Policy page (stub)
 
 ---
 
@@ -136,6 +137,13 @@
 | Admin KYC review UI + approve/reject | `/admin/kyc/:userId` | ✅ |
 | Email notification: KYC approved/rejected | — | ⬜ |
 | "Verified" badge on user profiles | User cards | ⬜ |
+| **User Dashboard Layout** (navbar + sidebar + tabs) | `/dashboard/*` | ✅ |
+| **Admin Dashboard Infrastructure** (layout, sidebar, header) | `/admin` | ✅ |
+| **Admin Login + Forgot Password** (separate from user auth) | `/admin/login`, `/admin/forgot-password` | ✅ |
+| **Admin Dashboard Overview** (stats, quick actions) | `/admin` | ✅ |
+| **Super Admin seed** (admin@gmail.com, role-based auth guard) | — | ✅ |
+| **Admin/User auth isolation** (admin cannot login as user & vice versa) | — | ✅ |
+| **Spinner component** (loading states) | — | ✅ |
 
 **Success Criteria:** User can upload CCCD, admin can approve, user status changes to VERIFIED.
 
@@ -153,10 +161,10 @@
 | oRPC: `listings.getById` (with images, blocked dates, reviews) | — | ✅ |
 | oRPC: `listings.categories` (active categories for filter UI) | — | ✅ |
 | oRPC: `listings.blockDates`, `.unblockDates`, `.checkAvailability` | — | ✅ |
-| Multi-step listing creation form | `/dashboard/listings/new` | ⬜ |
+| Multi-step listing creation form (basic — no image upload yet) | `/dashboard/listings/new` | ✅ |
 | Image upload (2-8 photos, drag-reorder) | Inline | ⬜ |
 | Edit listing form + availability calendar | `/dashboard/listings/:id/edit` | ⬜ |
-| My Listings management page | `/dashboard/listings` | ⬜ |
+| My Listings management page | `/dashboard/listings` | ✅ |
 | Browse page: connect real API (replace mock data) | `/browse` | ✅ |
 | Homepage sections: connect real API (replace mock data) | `/` | ✅ |
 | Listing detail page: gallery, info, owner card, calendar, reviews | `/listing/:id` | ⬜ |
